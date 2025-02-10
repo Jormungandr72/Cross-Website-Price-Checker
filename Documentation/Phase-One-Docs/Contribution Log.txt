@@ -1,12 +1,14 @@
 Phase One:
+
   Patrick (Team Lead, Developer):
     - Organized, guided team meeting
     - Delegated tasks
     - Followed up with team members
     - Finalized documentation (Presentation, Project Proposal, SoW)
-    Created three slides:
+    Created four slides:
       - Intro
       - Frameworks, languages
+      - Guiding documents
       - Outro
     Added the following to the project proposal:
       - Cover page
@@ -35,3 +37,31 @@ Phase One:
     Added the following to the statement of work:
       - Scope of work
       - Work requirements
+
+  Justin (Developer):
+    - Helped troubleshoot GitHub issues
+    - Followed up on other team members
+    - Added visuals to the presentation
+    - Assisted in finding frameworks
+    Created three slides:
+      - Project idea, background
+      - Cutting edge tech
+      - (not in final product)
+    Added the following to the project proposal:
+      - Added to introduction
+    Added the following to the statement of work:
+      - Place of performance
+      - Added to work requirements
+
+  Jeffery (Developer):
+    - Productive in team meeting
+    - Assisted in determining project langauges
+    - Researched and proposed scraping APIs
+    Created two slides:
+      - API considerations
+      - API decisions
+    Added the following to the project proposal:
+      - Terms and conditions
+    Added the following to the statement of work:
+      - Period of performace
+      - Added work requirements
