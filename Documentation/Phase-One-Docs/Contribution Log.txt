@@ -65,3 +65,11 @@ Phase One:
     Added the following to the statement of work:
       - Period of performace
       - Added work requirements
+
+  Tanas (Developer):
+    Created zero slides:
+      - null
+    Added the following to the project proposal:
+      - null
+    Added the following to the statement of work:
+      - null
