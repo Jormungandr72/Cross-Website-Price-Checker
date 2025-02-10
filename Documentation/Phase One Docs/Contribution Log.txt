@@ -1,0 +1,37 @@
+Phase One:
+  Patrick (Team Lead, Developer):
+    - Organized, guided team meeting
+    - Delegated tasks
+    - Followed up with team members
+    - Finalized documentation (Presentation, Project Proposal, SoW)
+    Created three slides:
+      - Intro
+      - Frameworks, languages
+      - Outro
+    Added the following to the project proposal:
+      - Cover page
+      - Executive summary
+      - Cost summary
+      - Began contact info
+    Added the following to the statement of work:
+      - Cover page
+      - Introduction/ background
+      - Schedule/ milestones
+      - Acceptance critera/ other requirements
+
+  Steven (Developer):
+    - Assisted in guiding team meeting
+    - Took meeting notes and gave summary to the group
+    - Helped ensure a secondary form of group communication
+    - Kept in constant communication
+    - Submitted all work in a timely manner
+    - Added database creation script
+    Created two slides:
+      - Backend Database
+      - Database initialization code
+    Added the following to the project proposal:
+      - Introduction
+      - Client operations
+    Added the following to the statement of work:
+      - Scope of work
+      - Work requirements
