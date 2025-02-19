@@ -22,6 +22,7 @@ function App() {
       </ul>
 
       <p>{message}</p>
+      <h1>This is our mission statement!</h1>
     </div>
   );
 }
