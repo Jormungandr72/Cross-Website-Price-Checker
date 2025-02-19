@@ -8,11 +8,6 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -63,8 +58,17 @@ li a {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  font-size: 30px;
+  background-color: rgb(50, 170, 50);
+  color: black;
 }
 
 li a:hover {
   background-color: #111;
+  color: white;
+}
+
+#icon {
+  height: 60px;
+  padding: 1px 5px 1px 5px;
 }
