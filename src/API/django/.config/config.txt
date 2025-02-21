@@ -1,0 +1,153 @@
+# Run the setup.bat BEFORE reading
+
+# We need to add three modules to the INSTALLED_APPS section of BACKEND\backend\settings.py
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'rest_framework', # communicate with react frontend
+    'corsheaders', # Allow frontend requests
+    'api', # use APIs
+]
+
+# and 1 middleware in the same file
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware', <--- add this
+]
+
+# Then at the bottom of the file:
+
+CORS_ALLOW_ALL_ORIGINS = True # Allow frontend requests
+ALLOWED_HOSTS = ['*'] # Set to all for testing
+
+# Then modify BACKEND\api\views.py
+
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
+@api_view(['GET'])
+def test_api(request):
+    return Response({'message' : "Hello From Django!!! merry Christmas"})
+
+# In BACKEND\api\urls.py: which should be created if it doesn't exist
+
+from django.urls import path
+from .views import test_api
+
+urlpatterns = [
+    path('test/', test_api),
+]
+
+# Then add to main backend BACKEND\backend\urls.py:
+
+from django.urls import path, include <-- add include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/', include('api.urls')),  <-- add api urls to point to our test api
+]
+
+# now run:
+python manage.py runserver
+
+# You should now have a sqlite3 file and a migrations file
+
+# head to http://127.0.0.1:8000/ and your API GET request should appear with your message
+
+## Now to setup react
+
+# first install nuget package manager (npm)
+
+## either with node.js: https://nodejs.org/en/download/ <--
+## or through a package manager: https://github.com/coreybutler/nvm-windows?tab=readme-ov-file
+
+# then get to our parent directory: BACKEND and run:
+npx create-react-app frontend
+
+# and change dir into it
+cd frontend
+
+# one more install for Axios, allows for fetching data from API's
+npm install axios
+
+# now for a simple API call in react
+# in frontend\src\app.js:
+
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
+function App() {
+  const [message, setMessage] = useState("Loading...");
+
+  useEffect(() => {
+    axios.get("http://127.0.0.1:8000/api/test/")
+      .then(response => setMessage(response.data.message))
+      .catch(error => setMessage("Error fetching data"));
+  }, []);
+
+  return (
+    <div>
+      <h1>Test App</h1>
+      <p>{message}</p>
+    </div>
+  );
+}
+
+export default App;
+
+# looks weird but it's JSX (Javascript XML) that
+# allows HTML elements in js and some other cool stuff i'm not 100% I can explain well enough
+
+# now we can run it with
+npm start
+
+# this may take a second to load up
+
+# Note: if you get a build error relating to web-vitals run: 
+npm i web-vitals
+# in your frontend directory
+
+## Serv react with Django
+
+npm run build
+
+# Create backend\views.py:
+
+from django.views.generic import TemplateView
+
+class ReactAppView(TemplateView):
+    template_name = "index.html"
+
+# Modify backend\urls.py
+from django.contrib import admin
+from django.urls import path, include, re_path
+from .views import ReactAppView
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/', include('api.urls')),
+    re_path(r'^.*$', ReactAppView.as_view(), name='react-app'),
+]
+
+# Modify backend\settings.py
+import os
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'frontend', 'build', 'static')]
+
+# Make sure Templates [ ] has:
+'DIRS': [os.path.join(BASE_DIR, 'frontend')],
+
+# Move the index.html from frontend\static to frontend\
+
+# make sure you are in backend (where manage.py resides)
+python manage.py runserver
