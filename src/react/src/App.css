@@ -4,6 +4,10 @@
   margin: 0;
 }
 
+body {
+  /* background-color: #2980b9; */
+}
+
 .App {
   text-align: center;
 }
@@ -38,17 +42,18 @@
   }
 }
 
-ul
+nav > ul
 {
   list-style-type: none;
   padding: 0;
   margin: 0;
   overflow: hidden;
-  background-color: #333;
+  background-color: green;
 }
 
 li
 {
+  display: inline;
   float: left;
 }
 
@@ -72,3 +77,5 @@ li a:hover {
   height: 60px;
   padding: 1px 5px 1px 5px;
 }
+
+

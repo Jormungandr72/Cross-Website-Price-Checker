@@ -1,0 +1,34 @@
+div.Items, div.query_stores, div.results {
+    border: solid black 2px;
+    padding: 15px;
+    margin: 20px;
+
+    text-align: center;
+}
+
+div.query_stores button
+{
+    padding: 10px;
+    border-radius: 5px;
+    color: black;
+    background-color: green;
+}
+
+div.query_stores button:hover
+{
+    background-color: black;
+    color: green;
+}
+
+div.searchBox {
+    text-align: center;
+    padding: 20px;
+    margin: 20px;
+}
+
+div.searchBox li
+{
+    border: solid black 2px;
+    padding: 10px;
+    margin: 5px;
+}
