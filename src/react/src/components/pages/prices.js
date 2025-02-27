@@ -26,6 +26,13 @@ const Prices = () => {
 
     return (
         <div>
+            <h2>My Prices Tab</h2>
+            <p>
+                In the My Prices Tab, users can lock in up to 10 items they want to monitor for price changes. 
+                PriceScout will continuously track these items, alerting users to any significant price drops or increases. 
+                This personalized tracking feature ensures users never miss an opportunity to save.
+            </p>
+            
             {/* searchBox div contains all search related components:
                 searchbar input box, search confirm button, related buttons created from query */}
             <div class="searchBox">
