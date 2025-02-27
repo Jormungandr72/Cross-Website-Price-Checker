@@ -8,9 +8,11 @@ import Prices from "./components/pages/prices";
 import NoPage from "./components/pages/nopage";
 import Login from "./components/pages/login"
 
+import GoogleLoginButton from "./components/molecules/google_login_button";
+
 import React, { useState, useEffect } from "react";
 
-import supabase from "./supabaseClient";
+import supabase from "./components/molecules/supabaseClient";
 
 import axios from "axios";
 
@@ -76,7 +78,7 @@ const App = () => {
           <button onClick={signOut}>Sign out</button>
         </div>
       ) : (
-        <button>Log In</button>
+        <GoogleLoginButton />
       )}
     </div>
   );

@@ -1,6 +1,6 @@
 import { useState } from 'react'; // react state hook
 
-import Button from '../button';
+import Button from '../atoms/button'
 
 import "../../styles/prices.css"
 
