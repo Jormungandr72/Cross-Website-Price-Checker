@@ -2,80 +2,62 @@
 {
   padding: 0;
   margin: 0;
+
+  box-sizing: border-box;
 }
 
 body {
   /* background-color: #2980b9; */
-}
+  background-color: #00bcd4      ;
 
-.App {
+  font-size: calc(2vmin * 1.2);
+
   text-align: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+nav {
+  background-color: #333;
+  padding: 15px 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+nav ul
+{
+  list-style: none;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-nav > ul
-{
-  list-style-type: none;
+  gap: 20px;
   padding: 0;
-  margin: 0;
-  overflow: hidden;
-  background-color: green;
 }
 
-li
-{
-  display: inline;
-  float: left;
-}
-
-li a {
-  display: inline-block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
+nav ul li a {
   text-decoration: none;
-  font-size: 30px;
-  background-color: rgb(50, 170, 50);
-  color: black;
-}
-
-li a:hover {
-  background-color: #111;
   color: white;
+  font-size: calc(10px + 2vh);
+  font-weight: 600;
+  padding: 10px 15px;
+
+  transition: color 0.3 ease-in-out;
 }
 
-#icon {
-  height: 60px;
-  padding: 1px 5px 1px 5px;
+nav ul li.right {
+  float: right;
 }
 
+nav ul li a:hover {
+  color: #ff5722 ;
+}
 
+h1, h2 {
+  text-align: center;
+}
+
+hr {
+  border: none;
+  height: 3px;
+  background: #444;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+
+  width: 70%;
+  margin: auto;
+  border-radius: 30%;
+}

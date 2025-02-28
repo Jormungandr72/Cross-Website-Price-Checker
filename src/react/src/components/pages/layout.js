@@ -7,9 +7,9 @@ const Layout = () => {
         <>
             <nav>
                 <ul>
-                    <li>
+                    {/* <li>
                         <img src={price} alt="Price Logo" id="icon" />
-                    </li>
+                    </li> */}
                     <li>
                         <Link to="/">Home</Link>
                     </li>
@@ -19,7 +19,7 @@ const Layout = () => {
                     <li>
                         <Link to="/prices">Prices</Link>
                     </li>
-                    <li>
+                    <li className="right">
                         <Link to="/login">Login</Link>
                     </li>
                 </ul>

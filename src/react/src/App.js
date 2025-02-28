@@ -6,9 +6,7 @@ import Home from "./components/pages/home";
 import Trends from "./components/pages/trends";
 import Prices from "./components/pages/prices";
 import NoPage from "./components/pages/nopage";
-import Login from "./components/pages/login"
-
-import GoogleLoginButton from "./components/molecules/google_login_button";
+import Login from "./components/pages/login";
 
 import React, { useState, useEffect } from "react";
 
@@ -70,16 +68,6 @@ const App = () => {
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>
-
-      <h1>Login Screen</h1>
-      {user ? (
-        <div>
-          <p>Welcome, {user.email}</p>
-          <button onClick={signOut}>Sign out</button>
-        </div>
-      ) : (
-        <GoogleLoginButton />
-      )}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-div.Items, div.query_stores, div.results {
+/* div.Items, div.query_stores, div.results {
     border: solid black 2px;
     padding: 15px;
     margin: 20px;
@@ -31,4 +31,14 @@ div.searchBox li
     border: solid black 2px;
     padding: 10px;
     margin: 5px;
+} */
+
+/* Previous prices layout rules */
+
+h2
+{
+    padding: 10px;
+    margin: 10px;
+
+    text-align: center;
 }
