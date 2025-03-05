@@ -61,7 +61,10 @@ const App = () => {
         <Route path="/" element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="trends" element={<Trends />} />
-          <Route path="prices" element={user ? <Prices /> : <NoPage />} />
+          {/* <Route path="prices" element={user ? <Prices /> : <NoPage />} /> */}
+
+          {/* Presentation view, do not leave in production: */}
+          <Route route="prices" element={<Prices />} />
           
           <Route path="login" element={<Login />} />
 

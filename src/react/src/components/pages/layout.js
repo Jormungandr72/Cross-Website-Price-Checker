@@ -1,6 +1,6 @@
 import { Outlet, Link } from "react-router-dom";
 
-import price from "../../price.png"
+// import price from "../../price.png"
 
 const Layout = () => {
     return (
