@@ -1,3 +1,5 @@
+import { ReactComponent as Graph } from '../../images/graph.svg';
+
 const Trends = () => {
     return(
         <div>
@@ -8,6 +10,8 @@ const Trends = () => {
                 This section helps users discover trending deals and demonstrates the real-time functionality 
                 of PriceScout’s price comparison tool.
             </p>
+
+            <Graph style={ {width: '35%', height: 'auto' }}/>
         </div>
     );
 };
