@@ -1,15 +1,15 @@
 import { Outlet, Link } from "react-router-dom";
 
-import price from "../price.png"
+// import price from "../../price.png"
 
 const Layout = () => {
     return (
         <>
             <nav>
                 <ul>
-                    <li>
+                    {/* <li>
                         <img src={price} alt="Price Logo" id="icon" />
-                    </li>
+                    </li> */}
                     <li>
                         <Link to="/">Home</Link>
                     </li>
@@ -18,6 +18,9 @@ const Layout = () => {
                     </li>
                     <li>
                         <Link to="/prices">Prices</Link>
+                    </li>
+                    <li className="right">
+                        <Link to="/login">Login</Link>
                     </li>
                 </ul>
             </nav>
