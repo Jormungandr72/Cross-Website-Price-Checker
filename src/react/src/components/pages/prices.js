@@ -1,3 +1,17 @@
+/*
+-------------------------------------------------------------------------------
+Program:    prices.js
+Author:     Justin Clark
+Date:       03/07/2025
+Language:   javascript
+Purpose:    allows users to lock in up to 10 items they want to monitor for price changes
+-------------------------------------------------------------------------------
+Change Log:
+Who  When           What
+JC  03.07.2025     description of prices page and buttons
+-------------------------------------------------------------------------------
+*/
+
 import { useState } from 'react'; // react state hook
 
 import Button from '../atoms/button'

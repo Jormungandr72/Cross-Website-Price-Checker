@@ -2,8 +2,11 @@
 *.tmp
 ~$*.doc*
 
-# Node modules / dependencies
+# Packages
 src/react/node_modules
+
+# Build Files
+src/react/build
 
 # Environment variables
 .env
