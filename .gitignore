@@ -3,3 +3,4 @@
 # Word temp
 ~$*.doc*
 
+.env
