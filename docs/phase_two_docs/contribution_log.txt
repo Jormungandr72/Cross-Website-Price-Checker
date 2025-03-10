@@ -27,6 +27,8 @@ Phase Two:
     - Designed a quick-start guide to simplify setup and usage
 
   Jeffery (Developer):
+	- Briefly contributed to Phase 2 Presentation
+	- Designed a rough prototype of Prices page
 
   Tanas (Developer):
     - Created brief mission statement (unused)
