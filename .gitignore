@@ -1,6 +1,12 @@
-*.tmp
-
 # Word temp
+*.tmp
 ~$*.doc*
 
+# Node modules / dependencies
+src/react/node_modules
+
+# Environment variables
 .env
+
+# Virtual environment
+*venv/
