@@ -1,0 +1,34 @@
+Phase Two:
+
+  Patrick (Team Lead, Developer):
+    - Organized and held meetings
+    - Provided reminders and follow ups
+    - GitHub structural changes
+    - Document reforms
+    - Made sure team knew how to be safe with keys
+    - Created coding conventions
+    - Ensured communication among team members
+
+  Steven (Developer):
+    - Created meeting notes
+    - Recorded meetings
+    - Reviewed website ToS/ robots.txt
+    - Created login system
+    - Created home page mission statement
+
+  Justin (Developer):
+    - Developed React components for future scalability
+    - Implemented page navigation
+    - Created logic to generate product buttons
+    - Wrote CSS rules for a responsive user interface
+    - Assisted integrating Supabase with React/Django (Steven led most of the effort)
+    - Organized the folder structure for better readability
+    - configured a .gitignore file to enhance security
+    - Designed a quick-start guide to simplify setup and usage
+
+  Jeffery (Developer):
+	- Contributed briefly to Phase 2 Presentation
+	- Designed a rough prototype of the Prices page
+
+  Tanas (Developer):
+    - Created brief mission statement (unused)
