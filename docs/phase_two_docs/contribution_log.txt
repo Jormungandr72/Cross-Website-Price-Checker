@@ -1,9 +1,20 @@
 Phase Two:
 
   Patrick (Team Lead, Developer):
+    - Organized and held meetings
+    - Provided reminders and follow ups
+    - GitHub structural changes
+    - Document reforms
+    - Made sure team knew how to be safe with keys
+    - Created coding conventions
+    - Ensured communication among team members
 
   Steven (Developer):
-    - Worked on login sys
+    - Created meeting notes
+    - Recorded meetings
+    - Reviewed website ToS/ robots.txt
+    - Created login system
+    - Created home page mission statement
 
   Justin (Developer):
     - Developed React components for future scalability
