@@ -9,6 +9,7 @@ Purpose:    allows users to lock in up to 10 items they want to monitor for pric
 Change Log:
 Who  When           What
 JC  03.07.2025     description of prices page and buttons
+JC  03.09.2025     revised search bar and button functionality
 -------------------------------------------------------------------------------
 */
 
@@ -19,23 +20,55 @@ import Button from '../atoms/button'
 import "../../styles/prices.css"
 
 const Prices = () => {
-    const [buttons, setButtons] = useState([]);
+
+    let stores = ['Walmart', 'Target', 'Best Buy', 'Amazon', 'Costco', 'Sam\'s Club', 'Kroger', 'Aldi', 'Trader Joe\'s', 'Whole Foods']; // list of stores
+    // let categories = ['Electronics', 'Clothing', 'Home Goods', 'Groceries', 'Health & Beauty', 'Toys & Games', 'Sports & Outdoors', 'Automotive', 'Books & Media']; // list of categories
+    let storeFound = true; // flag for store found
+
+    const [buttons, setButtons] = useState([]); // state for button list
+    const [inputValue, setInputValue] = useState(''); // state for input value
+
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value); // update input value
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault(); // prevent form submission
+        handleClick(); // call handleClick function
+    }
 
     const handleClick = () => {
-        
-        // button list, state updates when length changes
-        const newButtons = [
-            `Button ${buttons.length + 1}`,
-            `Button ${buttons.length + 2}`,
-            `Button ${buttons.length + 3}`,
-        ];
-        setButtons(newButtons); // update buttons var to reflect state change
-        
-        // FIXME: push 3 buttons to end of array to change state and continuously update
-        // updates only up to length = 6
-        buttons.push(`Button ${buttons.length + 1}`);
-        buttons.push(`Button ${buttons.length + 1}`);
-        buttons.push(`Button ${buttons.length + 1}`);
+        // Check if input value is empty
+        if (inputValue === '') {
+            console.log('Input is empty');
+            storeFound = false;
+            return;
+        }
+
+        // Check if input value is a valid store
+        for (let i = 0; i < stores.length; i++) {
+            if (stores[i].toLowerCase().includes(inputValue.toLowerCase())) {
+                // Check if store is already in button list
+                if (buttons.includes(stores[i])) {
+                    console.log(`${inputValue} | Store already in list : ${stores[i]}`);
+                    return;
+                }
+
+                // add store to button list ( unique store found :) )
+                setButtons([...buttons, stores[i]]);
+                break;
+            }
+        }
+
+        if (!storeFound) {
+            // store not found :(
+            console.log(`${inputValue} | Store not found : ${inputValue}`);
+            setButtons([]); // reset buttons
+        }
+
+        // reset input value
+        setInputValue('');
+        storeFound = false;
     };
 
     return (
@@ -46,12 +79,13 @@ const Prices = () => {
                 PriceScout will continuously track these items, alerting users to any significant price drops or increases. 
                 This personalized tracking feature ensures users never miss an opportunity to save.
             </p>
-            
-            {/* searchBox div contains all search related components:
-                searchbar input box, search confirm button, related buttons created from query */}
-            <div class="searchBox">
-                <input placeholder="search products"></input>
-                <Button onClick={handleClick}>Button as link</Button>
+
+            <div className="searchBox">
+                <form onSubmit={handleSubmit}>
+                    <input type="text" onChange={handleInputChange} placeholder="Search products"></input>
+                </form>
+
+                <Button onClick={handleClick}>Submit</Button>
 
                 {buttons.length > 0 && (
                     <div>
@@ -63,6 +97,8 @@ const Prices = () => {
                     </div>
                 )}
             </div>
+
+            {!storeFound && <p>No stores found</p>}
         </div>
     );
 };
