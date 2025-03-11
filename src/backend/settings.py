@@ -15,10 +15,11 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR is as follows: ~/Desktop/Cross-Website-Price-Checker/src
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'frontend', 'build', 'static'),
+    os.path.join(BASE_DIR, 'backend', 'frontend', 'build', 'static'), # React static files
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
@@ -64,7 +65,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'frontend')],
+        'DIRS': [os.path.join(BASE_DIR, 'backend', 'frontend', 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,6 +82,17 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': BASE_DIR / 'db.postgresql',
+#         'USER': 'postgres', # replace with username
+#         'PASSWORD': 'password', # replace with password
+#         'HOST': 'localhost',
+#         'PORT': '5432', # Default PostgreSQL port
+#     }
+# }
 
 DATABASES = {
     'default': {
