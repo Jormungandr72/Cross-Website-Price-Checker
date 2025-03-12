@@ -1,0 +1,25 @@
+### File Summary ###
+
+This text file contains all conventions that should be followed in the project.
+
+### Folder names | File names ###
+
+1) Folder names should be in all lowercase with "_" characters instead of " " characters.
+
+2) File that contain classes should be in CamelCase.
+
+### Sample Comment Block (Python) ###
+
+"""
+-------------------------------------------------------------------------------
+Program:    ProgramName.py
+Author:     Patrick J. McGranahan
+Date:       MM.DD.YYYY
+Language:   python
+Purpose:    The purpose of this code is to...
+-------------------------------------------------------------------------------
+Change Log:
+Who  When           What
+PJM  MM.DD.YYYY     Created sample code block.
+-------------------------------------------------------------------------------
+"""
