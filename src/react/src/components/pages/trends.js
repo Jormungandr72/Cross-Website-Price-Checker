@@ -1,3 +1,17 @@
+/*
+-------------------------------------------------------------------------------
+Program:    trends.js
+Author:     Justin Clark
+Date:       03/07/2025
+Language:   javascript
+Purpose:    trends page component
+-------------------------------------------------------------------------------
+Change Log:
+Who  When           What
+JC  03.07.2025     Created trends page component with graph and description
+-------------------------------------------------------------------------------
+*/
+
 import { ReactComponent as Graph } from '../../images/graph.svg';
 
 const Trends = () => {

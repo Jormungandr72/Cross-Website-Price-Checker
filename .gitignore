@@ -1,12 +1,97 @@
-# Word temp
-*.tmp
-~$*.doc*
+# Python bytecode files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
 
-# Node modules / dependencies
-src/react/node_modules
+# Distribution / packaging
+.Python
+build/
+dist/
+*.egg-info/
 
-# Environment variables
-.env
+# Installer logs
+pip-log.txt
+pip-delete-this-directory/
 
-# Virtual environment
+# Virtual environments
 *venv/
+ENV/
+env/
+.venv/
+
+# IDE/editor files
+.idea/
+.vscode/
+
+# MacOS system files
+.DS_Store
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# Django specific files
+db.sqlite3
+*.log
+*.pot
+*.pyc
+
+# Static files
+/static/
+/media/
+
+# User-specific files
+*.env
+*.local
+
+# Django migrations
+*/migrations/*
+
+# Django secret key
+.secret_key/
+
+# Logs
+npm-debug.log*
+
+# React build files
+src/react/build/
+src/react/dist/
+
+# Node.js
+src/react/node_modules/
+
+# Test and coverage reports
+.coverage
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+*.hypothesis/
+
+# PowerPoint specific
+~$*
+*.tmp
+*.bak
+*.pptx~
+*.ppt~
+
+# Microsoft Word specific
+~$*
+*.tmp
+*.bak
+*.docx~
+*.doc~
+*.swp
+*.swo
+
+# PostgreSQL specific files
+*.log
+*.sql
+*.bak
+
+# Database dumps
+*.dump
+
+# Temporary files
+*.tmp
+*.swp

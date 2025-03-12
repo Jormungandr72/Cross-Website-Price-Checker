@@ -1,4 +1,17 @@
-// import ReactDOM from "react-dom/client";
+/*
+-------------------------------------------------------------------------------
+Program:    App.js
+Author:     Justin Clark
+Date:       03/07/2025
+Language:   javascript
+Purpose:    inject dom root element and routing
+-------------------------------------------------------------------------------
+Change Log:
+Who  When           What
+JC  03.07.2025     Created initialization code
+-------------------------------------------------------------------------------
+*/
+
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 
 import Layout from "./components/pages/layout";
@@ -63,9 +76,8 @@ const App = () => {
           <Route path="trends" element={<Trends />} />
           {/* <Route path="prices" element={user ? <Prices /> : <NoPage />} /> */}
 
-          {/* Presentation view, do not leave in production: */}
-          <Route route="prices" element={<Prices />} />
-          
+          {/* Presentation view, DO NOT leave in production: */}
+          <Route path="prices" element={<Prices />} />
           <Route path="login" element={<Login />} />
 
           <Route path="*" element={<NoPage />} />

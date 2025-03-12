@@ -1,3 +1,17 @@
+/*
+-------------------------------------------------------------------------------
+Program:    home.js
+Author:     Justin Clark
+Date:       03/07/2025
+Language:   javascript
+Purpose:    component for home page
+-------------------------------------------------------------------------------
+Change Log:
+Who  When           What
+JC  03.07.2025     Created home page elements
+-------------------------------------------------------------------------------
+*/
+
 const Home = () => {
     return (
         <div>
