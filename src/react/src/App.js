@@ -23,7 +23,7 @@ import Login from "./components/pages/login";
 
 import React, { useState, useEffect } from "react";
 
-// import supabase from "./components/molecules/supabaseClient";
+import supabase from "./components/molecules/supabaseClient";
 
 import axios from "axios";
 
@@ -31,42 +31,42 @@ import './App.css';
 
 const App = () => {
 
-  // // If app takes longer to load, show loading...
-  // // Note: loading is never showed, it's only stored in message...
-  // // setMessage is still required therefore so is message
-  // const [message, setMessage] = useState("Loading...");
+  // If app takes longer to load, show loading...
+  // Note: loading is never showed, it's only stored in message...
+  // setMessage is still required therefore so is message
+  const [message, setMessage] = useState("Loading...");
   
-  // // Track user authentication state
-  // const [user, setUser] = useState(null);
-  // const navigate = useNavigate();
+  // Track user authentication state
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   axios.get("http://127.0.0.1:8000/api/test/")
-  //     .then(response => setMessage(response.data.message))
-  //     .catch(error => setMessage("Error fetching data at \"http://127.0.0.1:8000/api/test/\""));
+  useEffect(() => {
+    axios.get("http://127.0.0.1:8000/api/test/")
+      .then(response => setMessage(response.data.message))
+      .catch(error => setMessage("Error fetching data at \"http://127.0.0.1:8000/api/test/\""));
 
-  //     // Get session info
-  //     const fetchSession = async () => {
-  //       const {
-  //           data: { session },
-  //         } = await supabase.auth.getSession();
-  //         setUser(session?.user || null);
-  //       };
+      // Get session info
+      const fetchSession = async () => {
+        const {
+            data: { session },
+          } = await supabase.auth.getSession();
+          setUser(session?.user || null);
+        };
       
-  //     fetchSession();
+      fetchSession();
 
-  //     // Subscribe to auth state change
-  //     supabase.auth.onAuthStateChange((_event, session) => {
-  //       setUser(session?.user || null);
-  //     });
-  // }, []);
+      // Subscribe to auth state change
+      supabase.auth.onAuthStateChange((_event, session) => {
+        setUser(session?.user || null);
+      });
+  }, []);
 
-  // // clear userstate and redirect to home
-  // const signOut = async () => {
-  //   await supabase.auth.signOut();
-  //   setUser(null);
-  //   navigate('/')
-  // }
+  // clear userstate and redirect to home
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    navigate('/')
+  }
 
   return (
     <div>
