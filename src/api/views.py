@@ -1,34 +1,48 @@
 # Create your views here.
+from .models import Product
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.db import connection
-from .serializer import ProductSerializer
-
-import requests
+from .serializers import ProductSerializer
 
 # api view decorator to inherit Response + Request classes
 @api_view(['GET'])
 def test_api(request):
     return Response({'message' : "Hello, World! This is a test API from the django API app."})
 
-# Example API request for stores API
+@api_view(['GET'])
+def get_prices(request):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT PRICES FROM PRODUCTS")
+        
+    return Response({'message' : cursor}, status=201)
+
 @api_view(['GET'])
 def get_price(request, product_id):
-    api_url = f"https://fakestoreapi.com/products/{product_id}"
-    response = requests.get(api_url)
-
-    if (response.code == 200):
-        return Response(response.json())
-    else:
-        return Response({'error': 'failed to fetch data...'}, status=400)
-
-@api_view(['GET'])
-def get_products(request):
-    name = request.data.get("name")
-    price = request.data.get("price")
-
     with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM products WHERE name = %s AND price = %s", [name, price])
+        cursor.execute("SELECT PRICES FROM PRODUCTS WHERE ID = %s", [product_id])
 
-    return Response({'message' : "Products fetched successfully."}, status=201)
+    return Response({'message' : cursor}, status=201)
+
+@api_view(['POST'])
+def create_price(request):
+    serializer = ProductSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+@api_view(['PUT'])
+def update_price(request, product_id):
+    try:
+        product = Product.objects.get(id=product_id)
+    except Product.DoesNotExist:
+        return Response({'error': 'product not found!'})    
+    
+    serializer = ProductSerializer(instance=product, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    
+    return Response(serializer.errors)
+
