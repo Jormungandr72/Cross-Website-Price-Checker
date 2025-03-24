@@ -1,3 +1,6 @@
+import os
+from dotenv import load_dotenv, dotenv_values
+
 """
 -------------------------------------------------------------------------------
 Program:    NexarClient.py
@@ -9,17 +12,32 @@ Purpose:    The purpose of this code is to collect data from the Nexar API for
 -------------------------------------------------------------------------------
 Change Log:
 Who  When           What
+PJM  03.24.2025     Updated defualt constructor to initialize class variables
+                    based on the root directory .env file. 
+PJM  03.24.2025     Added imports related to accessing enviromental variables.
+PJM  03.24.2025     Added fields required to access the Nexar API.
 PJM  03.24.2025     Created NexarClient.py and added default constructor.
 -------------------------------------------------------------------------------
 """
 class NexarClient:
     # Data Fields
 
+    # Stored in root directory .env
+    _client_id = ""
+    _client_secret = ""
+    _username = ""
+    _password = ""
+
     # Constructor
     def __init__(self):
         """
-        Default Constructor.
+        Default Constructor. Loads enviromental variables from root directory
+        and initializes class variables.
         """
-        pass
+        load_dotenv()
+        self._client_id = os.getenv("NEXAR_CLIENT_ID")
+        self._client_secret = os.getenv("NEXAR_CLIENT_SECRET")
+        self._username = os.getenv("NEXAR_USERNAME")
+        self._password = os.getenv("NEXAR_PASSWORD")
 
     # Methods
