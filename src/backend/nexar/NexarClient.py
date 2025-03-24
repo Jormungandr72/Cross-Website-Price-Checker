@@ -14,6 +14,9 @@ Purpose:    The purpose of this code is to collect data from the Nexar API for
 -------------------------------------------------------------------------------
 Change Log:
 Who  When           What
+PJM  03.24.2025     Finished the getToken() method. Added fields for urls and
+                    updated constructor accordingly. The urls in the root .env
+                    still need to be set.
 PJM  03.24.2025     Created the getToken() method. Added relevant imports 
                     (requests, json). 
 PJM  03.24.2025     Updated defualt constructor to initialize class variables
@@ -32,6 +35,9 @@ class NexarClient:
     _username = ""
     _password = ""
 
+    _nexar_url = ""
+    _token_url = ""
+
     # Constructor
     def __init__(self):
         """
@@ -44,10 +50,34 @@ class NexarClient:
         self._username = os.getenv("NEXAR_USERNAME")
         self._password = os.getenv("NEXAR_PASSWORD")
 
+        self._nexar_url = os.getenv("NEXAR_URL")
+        self._token_url = os.getenv("NEXAR_TOKEN_URL")
+ 
+    # Getters
+
+    # Setters
+
     # Methods
     def getToken(self):
         """
-        Returns the Nexar token based on the client id and secret provided.
+        Returns the Nexar token based on the client ID and secret provided.
         Returns:
-            array: 
+            json: a json object with grant type, client id, client secret
         """
+        token = {} # Return variable
+
+        try:
+            token = requests.post(
+                url = self._nexar_url,
+                data = {
+                    "grant_type": "client credentials",
+                    "client_id": self._client_id,
+                    "client_secret": self._client_secret
+                },
+                allow_redirects=False
+            ).json
+
+        except:
+            raise Exception("Failed to retrieve token data.")
+        
+        return token
