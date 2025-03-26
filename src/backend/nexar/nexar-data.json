@@ -1,0 +1,6 @@
+{
+    "product_type": {
+        "enum":["desktop", "audio", "peripheral"]
+    },
+    "price":"integer"
+}
