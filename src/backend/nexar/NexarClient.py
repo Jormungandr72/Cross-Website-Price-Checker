@@ -1,5 +1,5 @@
 import os
-from dotenv import load_dotenv, dotenv_values
+from dotenv import load_dotenv, set_key
 import requests
 import json
 import base64
@@ -15,6 +15,11 @@ Purpose:    The purpose of this code is to collect data from the Nexar API for
 -------------------------------------------------------------------------------
 Change Log:
 Who  When           What
+PJM  03.25.2025     Added code to create token in default contstructor. 
+                    Deleted uneeded imports and imported dotenv.set_key() to
+                    write in our .env file.
+PJM  03.25.2025     Removed uneeded variables (username, password) from the 
+                    default constructor.
 PJM  03.25.2025     Finished the decodeJWT() method.
 PJM  03.25.2025     Created the decodeJWT() method. Updated imports to include
                     base64.
@@ -38,6 +43,7 @@ class NexarClient:
     _client_secret = ""
     _username = ""
     _password = ""
+    _token = "" 
 
     _nexar_url = ""
     _token_url = ""
@@ -46,16 +52,21 @@ class NexarClient:
     def __init__(self):
         """
         Default Constructor. Loads enviromental variables from root directory
-        and initializes class variables.
+        and initializes class variables. Then fetches the token and forwards it
+        to the root directory enviromental file.
         """
         load_dotenv()
         self._client_id = os.getenv("NEXAR_CLIENT_ID")
         self._client_secret = os.getenv("NEXAR_CLIENT_SECRET")
-        self._username = os.getenv("NEXAR_USERNAME")
-        self._password = os.getenv("NEXAR_PASSWORD")
 
         self._nexar_url = os.getenv("NEXAR_URL")
         self._token_url = os.getenv("NEXAR_TOKEN_URL")
+
+        # Fetch the token and decode it
+        self._token = self.decodeJWT(self.getToken())
+
+        # Write token to root .env file
+
  
     # Getters
 
