@@ -8,6 +8,7 @@
         "axios": "^1.7.9",
         "bootstrap": "^5.3.3",
         "cra-template": "1.2.0",
+        "dotenv": "^16.4.7",
         "react": "^19.0.0",
         "react-bootstrap": "^2.10.9",
         "react-dom": "^19.0.0",
@@ -17,8 +18,8 @@
         "web-vitals": "^4.2.4"
     },
     "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
+        "start": "dotenv -e ../.env react-scripts start",
+        "build": "dotenv -e ../.env react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },

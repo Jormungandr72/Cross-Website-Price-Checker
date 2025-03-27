@@ -45,4 +45,3 @@ def update_price(request, product_id):
         return Response(serializer.data)
     
     return Response(serializer.errors)
-
