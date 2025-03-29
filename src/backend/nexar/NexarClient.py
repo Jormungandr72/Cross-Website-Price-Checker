@@ -66,7 +66,8 @@ class NexarClient:
         self._token = self.decodeJWT(self.getToken())
 
         # Write token to root .env file
-
+        set_key(dotenv_path = "Cross-Website-Price-Checker/.env", 
+                key_to_set = "NEXAR_TOKEN", value_to_set = self._token)
  
     # Getters
 
