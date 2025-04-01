@@ -2,7 +2,9 @@ import os
 from dotenv import load_dotenv, set_key
 import requests
 import json
+import time
 import base64
+from typing import Dict
 
 """
 -------------------------------------------------------------------------------
@@ -15,6 +17,8 @@ Purpose:    The purpose of this code is to collect data from the Nexar API for
 -------------------------------------------------------------------------------
 Change Log:
 Who  When           What
+PJM  04.01.2025     Began modifying Nexar code for the project requirements.
+PJM  04.01.2025     Imported Nexar code for checking expressions and queries.
 PJM  03.25.2025     Added code to create token in default contstructor. 
                     Deleted uneeded imports and imported dotenv.set_key() to
                     write in our .env file.
@@ -110,3 +114,30 @@ class NexarClient:
         return json.loads(
             (base64.urlsafe_b64decode(token.split(".")[1] + "==")).decode("utf-8")
         )
+    
+    
+    def checkExp(self):
+        if (self.exp < time.time() + 300):
+            self.token = self.getToken(self.id, self.secret)
+            self.s.headers.update({"token": self.token.get('access_token')})
+            self.exp = self.decodeJWT(self.token.get('access_token')).get('exp')
+
+    def getQuery(self, query: str, variables: Dict) -> dict:
+        """Return Nexar response for the query."""
+        try:
+            self.check_exp()
+            r = self.s.post(
+                self._nexar_url,
+                json={"query": query, "variables": variables},
+            )
+
+        except Exception as e:
+            print(e)
+            raise Exception("Error while getting Nexar response")
+
+        response = r.json()
+        if ("errors" in response):
+            for error in response["errors"]: print(error["message"])
+            raise SystemExit
+
+        return response["data"]
