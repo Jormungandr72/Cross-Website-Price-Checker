@@ -16,7 +16,10 @@ JC  03.09.2025     revised search bar and button functionality
 import { useState, useEffect } from 'react'; // react state hook
 import axios from 'axios';
 
-import Button from '../atoms/button'
+// Material UI
+// import { FormControl, InputLabel, Select, MenuItem, CircularProgress } from "@mui/material";
+
+import Button from '../atoms/button';
 
 import "../../styles/prices.css"
 
@@ -25,6 +28,9 @@ const Prices = () => {
     // let categories = ['Electronics', 'Clothing', 'Home Goods', 'Groceries', 'Health & Beauty', 'Toys & Games', 'Sports & Outdoors', 'Automotive', 'Books & Media']; // list of categories
     let storeFound = true; // flag for store found    
     const API_URL = 'http://127.0.0.1:8000/api/test/'
+
+    // State: drop down values (store names)
+    const [dropValues, setDropValues] = useState(["test"]);
 
     // State: button objects for store names
     const [buttons, setButtons] = useState([]);
@@ -46,6 +52,20 @@ const Prices = () => {
 
     // State: Store filter string
     const [storeFilter, setStoreFilter] = useState("");
+
+    const get_prices = async () => {
+        try
+        {
+            const response = await axios.get('http://127.0.0.1:8000/api/test/get-stores/');
+            let stores = response.data;
+            console.log(stores);
+            setDropValues(stores);
+        }
+        catch (err)
+        {
+            console.error(err);
+        }
+    }
 
     // EventHandler for filter change
     const handleFilterChange = (event) => {
@@ -145,7 +165,8 @@ const Prices = () => {
 
     // Triggers every render
     useEffect(() => {
-        fetch_data(); 
+        // fetch_data(); 
+        get_prices();
     }, []);
 
     return (
@@ -156,16 +177,36 @@ const Prices = () => {
                 PriceScout will continuously track these items, alerting users to any significant price drops or increases. 
                 This personalized tracking feature ensures users never miss an opportunity to save.
             </p>
+
+            {/* <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={5}
+                    label="Age"
+                    onChange={handleChange}
+                >
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+            </FormControl> */}
             
             <h3>Product List (w/filter)</h3>
             <select onChange={handleFilterChange} value={storeFilter}>
-                <option value="">All stores</option>
-                <option value="Target">Target</option>
-                <option value="Walmart">Walmart</option>
+                <option value="">Loading</option>
+                
+                {dropValues.map((value, index) => (
+                    <option key={index} value={value.value}>
+                        {value}
+                    </option>
+                ))}
+
             </select>
 
-            {/* Display product list */}
-            <div className="product-container">
+            
+            {/* <div className="product-container">
                 {filteredProducts.length > 0 ? (
                     filteredProducts.map((product) => (
                         <button onClick={() => handleProductClick(product)} key={product.id} className="product-card">
@@ -178,9 +219,9 @@ const Prices = () => {
                     ) : (
                         <p>No products for this store</p>
                 )}
-            </div>
+            </div> */}
 
-            <button onClick={handleAddProducts}>Show Products</button>
+            {/* <button onClick={handleAddProducts}>Show Products</button>
 
             <h1>Test</h1>
             {data ? JSON.stringify(data) : err}
@@ -203,7 +244,7 @@ const Prices = () => {
                 )}
             </div>
 
-            {!storeFound && <p>No stores found</p>}
+            {!storeFound && <p>No stores found</p>} */}
         </div>
     );
 };
