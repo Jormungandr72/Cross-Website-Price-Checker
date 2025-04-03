@@ -1,13 +1,14 @@
 """
 -------------------------------------------------------------------------------
-Program:    supabase.py
+Program:    SupabaseClient.py
 Author:     Steven Longhofer
 Date:       02/25/2025
 Language:   python
 Purpose:    initialze a supabase client to communicate with
 -------------------------------------------------------------------------------
 Change Log:
-Who  When           What
+Who  When          What
+PJM 04.03.2025     Renamed supabase_client.py to SupabaseClient.py.
 SL  02.25.2025     Created initialization code
 -------------------------------------------------------------------------------
 """

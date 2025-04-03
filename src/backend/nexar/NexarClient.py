@@ -17,6 +17,7 @@ Purpose:    The purpose of this code is to collect data from the Nexar API for
 -------------------------------------------------------------------------------
 Change Log:
 Who  When           What
+PJM  04.01.2025     Updated method docstrings.
 PJM  04.01.2025     Began modifying Nexar code for the project requirements.
 PJM  04.01.2025     Imported Nexar code for checking expressions and queries.
 PJM  03.25.2025     Added code to create token in default contstructor. 
@@ -117,13 +118,23 @@ class NexarClient:
     
     
     def checkExp(self):
+        """
+        Checks for the expiration of the nexar token.
+        """
         if (self.exp < time.time() + 300):
             self.token = self.getToken(self.id, self.secret)
             self.s.headers.update({"token": self.token.get('access_token')})
             self.exp = self.decodeJWT(self.token.get('access_token')).get('exp')
 
-    def getQuery(self, query: str, variables: Dict) -> dict:
-        """Return Nexar response for the query."""
+    def getQuery(self, query: str, variables: Dict):
+        """
+        Gets and returns the Nexar response for a query.
+        Args:
+            query string:
+            variables dictionary:
+        Returns:
+
+        """
         try:
             self.check_exp()
             r = self.s.post(
