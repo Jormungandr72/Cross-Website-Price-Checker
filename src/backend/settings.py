@@ -11,27 +11,28 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 import os
-from pathlib import Path
 from dotenv import load_dotenv
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
 # BASE_DIR is as follows: ~/Desktop/Cross-Website-Price-Checker/src
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+print(f"BASE DIR | {BASE_DIR}")
 
 # Load environment variables from env file at src
-load_dotenv(os.path.join(BASE_DIR, '.env'))
+load_dotenv(os.path.join(BASE_DIR, '../.env'))
 
 # Access these in other files with django.conf.settings
 SUPABASE_URL = os.getenv('SUPABASE_URL')
 SUPABASE_KEY = os.getenv('SUPABASE_KEY')
 SUPABASE_KEY_SR = os.getenv('SUPABASE_KEY_SR')
 
+# Static files settings
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'backend', 'frontend', 'build', 'static'), # React static files
-]
-
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+# React build folder
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'react\\build\\static'),
+]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -53,9 +54,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework', # communicate with react frontend
+    'rest_framework', # communicate with react frontend (Django REST API)
     'corsheaders', # Allow frontend requests
-    'api', # use APIs
+    'api', # use APIs app
 ]
 
 MIDDLEWARE = [
@@ -69,12 +70,14 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware'
 ]
 
+print(os.path.join(BASE_DIR + '\\react\\build'))
+
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'backend', 'frontend', 'build')],
+        'DIRS': [os.path.join(BASE_DIR + '\\react\\build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -92,24 +95,16 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': BASE_DIR / 'db.postgresql',
-#         'USER': 'postgres', # replace with username
-#         'PASSWORD': 'password', # replace with password
-#         'HOST': 'localhost',
-#         'PORT': '5432', # Default PostgreSQL port
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'test',
+        'USER': 'postgres', # replace with username
+        'PASSWORD': '5S80A4MUwTS1oeqQ', # replace with password
+        'HOST': 'localhost',
+        'PORT': '5432', # Default PostgreSQL port
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -140,12 +135,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

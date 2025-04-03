@@ -16,33 +16,25 @@ def test_api(request):
 
 @api_view(['GET'])
 def get_stores(request):
-    try:
-        postgres_url = settings.SUPABASE_URL + '/rest/v1/stores'
-        headers = {
-            'Content-Type': 'application/json',
-            'Authorization': f'Bearer {settings.SUPABASE_KEY_SR}',
-            'apikey': f'{settings.SUPABASE_KEY_SR}',
-        }
-        
-        print(f"=== SUPABASE_URL | {postgres_url} ===")
-        print(f"=== SUPABASE_KEY | {settings.SUPABASE_KEY_SR} ===")
-
-        postgres_response = requests.get(postgres_url, headers=headers)
-
-        print('Stores:', postgres_response)
-
-        if (postgres_response.status_code == 200):
-            return Response(postgres_response.json())
-        else:
-            return Response({'error': f'PostgREST API request failed, ERROR CODE | {postgres_response.status_code}'})
-    except requests.exceptions.RequestException as e:
-        return Response({'error' : str(e)})
+    query_result = None
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM test_schema.stores")
+        query_result = cursor.fetchall()
+    
+    return_data = [{"name": row[0]} for row in query_result]
+    return Response({'stores' : return_data})
 
 @api_view(['GET'])
-def get_prices(request):
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT PRICES FROM PRODUCTS")
-        
+def get_products(request, store):
+    query_result = None
+    cursor = connection.cursor()
+    query_result = cursor.execute("SELECT * FROM test_schema.products WHERE store_id = %s", [store])
+    
+    query_result = cursor
+    print(f"QUERY RESULT: | {query_result}")
+    
+    cursor.close()
+    
     return Response({'message' : cursor}, status=201)
 
 @api_view(['GET'])

@@ -16,7 +16,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Layout from "./components/pages/layout";
 import Home from "./components/pages/home";
-import Trends from "./components/pages/trends";
 import Prices from "./components/pages/prices";
 import NoPage from "./components/pages/nopage";
 import Login from "./components/pages/login";
@@ -30,7 +29,6 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<Home />} />
-            <Route path="trends" element={<Trends />} />
             {/* <Route path="prices" element={user ? <Prices /> : <NoPage />} /> */}
 
             {/* Presentation view, DO NOT leave in production: */}
