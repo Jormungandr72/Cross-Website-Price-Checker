@@ -1,28 +1,32 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import DropDown from '../molecules/dropdown.js';
+
 const StoreFilter = () => {
     const API_URL = 'http://127.0.0.1:8000/api/test/'
 
-    // State: drop down values (store names)
-    const [stores, setStores] = useState(["test"]);
-
-    // State: products divs for displaying after button
+    const [stores, setStores] = useState([]);
+    const [storeFilters, setStoreFilters] = useState([]);
     const [products, setProducts] = useState([]);
 
-    // State: Store filter string
-    const [storeFilter, setStoreFilter] = useState("");
 
-    const get_stores = async () => {
+    const get_stores = () => {
         try
         {
-            axios.get(API_URL + 'get-stores/')
-                .then((response) =>{
-                    setStores(response.data['stores']);
-                })
-                .catch((error) => {
-                    console.error('Error fetching stores:', error);
-                });
+            axios.post(API_URL + 'get-stores/', {
+                    headers: {
+                        "Content-Type" : "application/json; charset=UTF-8"
+                    }
+                }
+            )
+            .then((data => {
+                console.log(data.data)
+                setStores(data.data);
+            }))
+            .catch((error) => {
+                console.error(error);
+            })
         }
         catch (err)
         {
@@ -32,9 +36,12 @@ const StoreFilter = () => {
 
     const get_products = (store = null) => {
         try {
-            axios.get(API_URL + (store ? `/get-products?store_id=${store}` : "/get-products"))
+            axios.get(API_URL + (store ? `get-products?store_id=${store}` : "get-products"))
                 .then((response) => {
                     setProducts(response.data);
+                })
+                .catch((error) => {
+                    console.error(error);
                 })
         } catch (err) {
             console.error(err);
@@ -43,41 +50,28 @@ const StoreFilter = () => {
 
     // EventHandler for filter change
     const handleFilterChange = (event) => {
-        const store = event.target.value;
-        setStoreFilter(store);
-
-        axios.get(`${API_URL}get-products?store_id=${store}/`)
-            .then((response) => {
-                setProducts(response.data['products']);
-            });
+        setStoreFilters(event.target.value);
     }
 
-    // Triggers every render
+    // Triggers once every mount
     useEffect(() => {
         get_stores();
-        get_products();
+        // get_products();
     }, []);
 
     return (
         <div>
-            <div className="input-container">
-                <h3>Store Filter</h3>
-                <select onChange={handleFilterChange} value={storeFilter}>
-                    <option value="">Loading</option>
-                    
-                    {stores.map((value, index) => (
-                        <option key={index} value={value}>
-                            {value.name}
-                        </option>
-                    ))}
+             <DropDown
+                storeFilters={storeFilters}
+                stores={stores}
+                handleFilterChange={handleFilterChange}
+            />
 
-                </select>
-            </div>
-
+            <h2>Products</h2>
             <ul>
                 {products.map((product) => (
                     <li key={product.id}>{product.name} | ${product.price}</li>
-                ))};
+                ))}
             </ul>
         </div>
     );

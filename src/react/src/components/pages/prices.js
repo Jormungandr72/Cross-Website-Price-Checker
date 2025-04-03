@@ -13,8 +13,6 @@ JC  03.09.2025     revised search bar and button functionality
 -------------------------------------------------------------------------------
 */
 
-// Material UI
-// import { FormControl, InputLabel, Select, MenuItem, CircularProgress } from "@mui/material";
 import '../molecules/store_filter';
 import "../../styles/prices.css"
 import StoreFilter from '../molecules/store_filter';
@@ -22,8 +20,7 @@ import StoreFilter from '../molecules/store_filter';
 const Prices = () => {
     return (
         <div>
-            <h2>My Prices Tab</h2>
-            <h2>Test</h2>
+            <h2>My Prices</h2>
             <p>
                 In the My Prices Tab, users can lock in up to 10 items they want to monitor for price changes. 
                 PriceScout will continuously track these items, alerting users to any significant price drops or increases. 
