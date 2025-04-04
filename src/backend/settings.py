@@ -39,7 +39,6 @@ load_dotenv(os.path.join(BASE_DIR, '../.env'))
 # Access these in other files with django.conf.settings
 SUPABASE_URL = os.getenv('SUPABASE_URL')
 SUPABASE_KEY = os.getenv('SUPABASE_KEY')
-SUPABASE_KEY_SR = os.getenv('SUPABASE_KEY_SR')
 
 # Static files settings
 STATIC_URL = '/static/'
