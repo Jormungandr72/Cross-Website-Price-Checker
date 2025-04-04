@@ -1,3 +1,19 @@
+/*
+-------------------------------------------------------------------------------
+Program:    dropdown.js
+Author:     Justin Clark
+Date:       2025-04-04
+Language:   JavaScript
+Purpose:    This component is a dropdown menu that allows users to select multiple stores.
+-------------------------------------------------------------------------------
+Change Log:
+Who  When           What
+JC   2025-04-04     created the dropdown component
+JC   2025-04-05     added functionality to handle multiple selections and display selected values
+JC   2025-04-06      added material UI and improved accessibility features
+-------------------------------------------------------------------------------
+*/
+
 import { FormControl, InputLabel, Select, MenuItem, ListItemText } from '@mui/material';
 
 const DropDown = ({ storeFilters, stores, handleFilterChange }) => {

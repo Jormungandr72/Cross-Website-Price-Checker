@@ -1,3 +1,18 @@
+/*
+-------------------------------------------------------------------------------
+Program:    store_filter.js
+Author:     Justin Clark
+Date:       2025-04-04
+Language:   JavaScript
+Purpose:    This component is a filter for stores that allows users to select multiple stores and view the products available in those stores.
+-------------------------------------------------------------------------------
+Change Log:
+Who  When           What
+JC   2025-04-04     Created the store filter component
+JC   2025-04-05     Added functionality to handle multiple selections and display selected values
+-------------------------------------------------------------------------------
+*/
+
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
