@@ -19,12 +19,11 @@ import axios from 'axios';
 import DropDown from '../molecules/dropdown.js';
 
 const StoreFilter = () => {
-    const API_URL = 'http://127.0.0.1:8000/api/test/'
+    const API_URL = 'http://127.0.0.1:8000/api/test/';
 
     const [stores, setStores] = useState([]);
     const [storeFilters, setStoreFilters] = useState([]);
     const [products, setProducts] = useState([]);
-
 
     const get_stores = () => {
         try
@@ -50,28 +49,48 @@ const StoreFilter = () => {
     }
 
     const get_products = (store = null) => {
-        try {
-            axios.get(API_URL + (store ? `get-products?store_id=${store}` : "get-products"))
-                .then((response) => {
-                    setProducts(response.data);
-                })
-                .catch((error) => {
-                    console.error(error);
-                })
-        } catch (err) {
-            console.error(err);
-        }
+        // try {
+        //     axios.get(API_URL + (store ? `get-products?store_id=${store}` : "get-products"))
+        //         .then((response) => {
+        //             setProducts(response.data);
+        //         })
+        //         .catch((error) => {
+        //             console.error(error);
+        //         })
+        // } catch (err) {
+        //     console.error(err);
+        // }
+
+        const PRODUCTS = [
+            { id: 1, name: 'Product A', price: 10.00 },
+            { id: 2, name: 'Product B', price: 20.00 },
+            { id: 3, name: 'Product C', price: 30.00 },
+            { id: 4, name: 'Product D', price: 40.00 },
+            { id: 5, name: 'Product E', price: 50.00 },
+            { id: 6, name: 'Product F', price: 60.00 },
+            { id: 7, name: 'Product G', price: 70.00 },
+            { id: 8, name: 'Product H', price: 80.00 },
+            { id: 9, name: 'Product I', price: 90.00 },
+            { id: 10, name: 'Product J', price: 100.00 },
+            { id: 11, name: 'Product K', price: 110.00 },
+            { id: 12, name: 'Product L', price: 120.00 },
+        ]
+
+        setProducts(PRODUCTS);
     }
 
     // EventHandler for filter change
     const handleFilterChange = (event) => {
         setStoreFilters(event.target.value);
+
+        // Send filters to API with JSON payload
+        // set the setStores to the response from the API
     }
 
     // Triggers once every mount
     useEffect(() => {
         get_stores();
-        // get_products();
+        get_products();
     }, []);
 
     return (
@@ -83,9 +102,12 @@ const StoreFilter = () => {
             />
 
             <h2>Products</h2>
-            <ul>
+            <ul className="product-list">
                 {products.map((product) => (
-                    <li key={product.id}>{product.name} | ${product.price}</li>
+                    <div>
+                        <img src={product.img} alt="product-img" />
+                        <li key={product.id}>{product.name} | ${product.price}</li>
+                    </div>
                 ))}
             </ul>
         </div>

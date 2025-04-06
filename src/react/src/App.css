@@ -1,8 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 * {
     padding: 0;
     margin: 0;
 
     box-sizing: border-box;
+
+    font-family: 'Roboto', sans-serif;
 }
 
 body {
@@ -91,4 +95,35 @@ div {
     border: 2px solid black;
     padding: 10px;
     margin: 10px;
+}
+
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    list-style: none;
+}
+
+.product-list li {
+    padding: 10px;
+    border: 1px solid black;
+    margin: 5px 0;
+    border-radius: 20px;
+
+    font-weight: 700;
+    color: white;
+    background-color: #444;
+}
+
+.product-list li:hover {
+    background-color: white;
+    color: #444;
+
+    animation: grow 0.3s ease-in-out;
+}
+
+@keyframes grow {
+    50% {
+        transform: scale(1.05);
+    }
 }

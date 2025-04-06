@@ -22,10 +22,9 @@
         "web-vitals": "^4.2.4"
     },
     "scripts": {
-        "start": "react-scripts start",
+        "start": "node load_env.js && react-scripts start",
         "build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "test": "react-scripts test"
     },
     "eslintConfig": {
         "extends": [
@@ -46,6 +45,7 @@
         ]
     },
     "devDependencies": {
+        "@craco/craco": "^7.1.0",
         "concurrently": "^9.1.2"
     }
 }

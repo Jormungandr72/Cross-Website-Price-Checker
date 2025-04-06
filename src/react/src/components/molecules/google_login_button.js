@@ -31,13 +31,22 @@ const GoogleLoginButton = () => {
         navigate("/home");
     };
 
-    const clientId = process.env.REACT_APP_CLIENT_ID
+    const clientId = process.env.REACT_APP_CLIENT_ID;
+    console.log(`clientId: ${clientId}`);
 
-    return (
-        <GoogleOAuthProvider clientId={clientId}>
-            <GoogleLogin onSuccess={handleSuccess} onError={handleFaliure}/>
-        </GoogleOAuthProvider>
-    );
+    if (!clientId) {
+        console.error("Google client ID is not set in environment variables.");
+        return (
+            <p>Google Authentication has encountered an error</p>
+        );
+    }
+    else {
+        return (
+            <GoogleOAuthProvider clientId={clientId}>
+                <GoogleLogin onSuccess={handleSuccess} onError={handleFaliure}/>
+            </GoogleOAuthProvider>
+        );
+    }
 }
 
 export default GoogleLoginButton;
