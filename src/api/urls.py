@@ -17,8 +17,10 @@ JC  04.03.2025     added get_stores and get_products endpoints
 from django.urls import path
 from .views import test_api
 from .views import get_stores
+from .views import get_products
 
 urlpatterns = [
     path('test-api/', test_api), # example of a simple API endpoint
     path('test/get-stores/', get_stores),
+    path('test/get-products/', get_products),
 ]

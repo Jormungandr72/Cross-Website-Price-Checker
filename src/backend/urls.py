@@ -19,5 +19,6 @@ from .views import index
 
 urlpatterns = [
     path('', index),                        # React frontend
+    path('prices/', index),                 # React frontend alias
     path('api/', include('api.urls')),      # API endpoints
 ]

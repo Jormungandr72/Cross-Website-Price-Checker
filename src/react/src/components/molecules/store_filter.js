@@ -23,6 +23,7 @@ const StoreFilter = () => {
 
     const [stores, setStores] = useState([]);
     const [storeFilters, setStoreFilters] = useState([]);
+    const [storeNames, setStoreNames] = useState([]);
     const [products, setProducts] = useState([]);
 
     const get_stores = () => {
@@ -49,51 +50,71 @@ const StoreFilter = () => {
     }
 
     const get_products = (store = null) => {
-        // try {
-        //     axios.get(API_URL + (store ? `get-products?store_id=${store}` : "get-products"))
-        //         .then((response) => {
-        //             setProducts(response.data);
-        //         })
-        //         .catch((error) => {
-        //             console.error(error);
-        //         })
-        // } catch (err) {
-        //     console.error(err);
-        // }
+        const payload = { 'store_names': storeNames }
+        
+        try {
+            axios.post(API_URL + 'get-products/', payload)
+                .then((response) => {
+                    console.log("Response data from get-products", response.data);
 
-        const PRODUCTS = [
-            { id: 1, name: 'Product A', price: 10.00 },
-            { id: 2, name: 'Product B', price: 20.00 },
-            { id: 3, name: 'Product C', price: 30.00 },
-            { id: 4, name: 'Product D', price: 40.00 },
-            { id: 5, name: 'Product E', price: 50.00 },
-            { id: 6, name: 'Product F', price: 60.00 },
-            { id: 7, name: 'Product G', price: 70.00 },
-            { id: 8, name: 'Product H', price: 80.00 },
-            { id: 9, name: 'Product I', price: 90.00 },
-            { id: 10, name: 'Product J', price: 100.00 },
-            { id: 11, name: 'Product K', price: 110.00 },
-            { id: 12, name: 'Product L', price: 120.00 },
-        ]
+                    // Check if the response contains an error
+                    if (response.data.error) {
+                        console.log("No products found for the selected store.");
+                        setProducts([]);
+                        return;
+                    }
 
-        setProducts(PRODUCTS);
+                    const productNames = response.data.map((product) => product.product_name);
+                    setProducts(response.data);
+                    console.log("Product names:", productNames);
+                })
+                .catch((error) => {
+                    console.error(error);
+                })
+        } catch (err) {
+            console.error(err);
+        }
+
+        // Demo data for testing purposes
+        // const PRODUCTS = [
+        //     { id: 1, name: 'Product A', price: 10.00 },
+        //     { id: 2, name: 'Product B', price: 20.00 },
+        //     { id: 3, name: 'Product C', price: 30.00 },
+        //     { id: 4, name: 'Product D', price: 40.00 },
+        //     { id: 5, name: 'Product E', price: 50.00 },
+        //     { id: 6, name: 'Product F', price: 60.00 },
+        //     { id: 7, name: 'Product G', price: 70.00 },
+        //     { id: 8, name: 'Product H', price: 80.00 },
+        //     { id: 9, name: 'Product I', price: 90.00 },
+        //     { id: 10, name: 'Product J', price: 100.00 },
+        //     { id: 11, name: 'Product K', price: 110.00 },
+        //     { id: 12, name: 'Product L', price: 120.00 },
+        // ]
+
+        // setProducts(PRODUCTS);
     }
 
     // EventHandler for filter change
     const handleFilterChange = (event) => {
-        setStoreFilters(event.target.value);
+        const selectedIds = event.target.value;
+        setStoreFilters(selectedIds);
 
-        // Send filters to API with JSON payload
-        // set the setStores to the response from the API
+        // get store names
+        const selectedStoreNames = stores
+            .filter(store => selectedIds.includes(store.store_id))
+            .map(store => store.store_name);
+
+        console.log("Selected store IDs:", selectedIds);
+        console.log("Selected store names:", selectedStoreNames);
+
+        setStoreNames(selectedStoreNames);
     }
 
     // Triggers once every component mount
-    // NOTE: [] is the dependency array, if empty, it will only run once
-    // This is bad practice, it should have something to depend on (trigger the useEffect)
     useEffect(() => {
         get_stores();
-        get_products();
-    }, []);
+        get_products(storeFilters);
+    }, [storeFilters]);
     return (
         <div>
              <DropDown
@@ -107,7 +128,7 @@ const StoreFilter = () => {
                 {products.map((product) => (
                     <div>
                         <img src={product.img} alt="product-img" />
-                        <li key={product.id}>{product.name} | ${product.price}</li>
+                        <li key={product.id}>{product.product_name} | ${product.price}</li>
                     </div>
                 ))}
             </ul>
@@ -116,3 +137,4 @@ const StoreFilter = () => {
 };
 
 export default StoreFilter;
+

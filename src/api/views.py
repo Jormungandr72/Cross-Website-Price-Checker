@@ -103,16 +103,16 @@ def get_products(request):
         }
     """
     # Get store name to filter stores
-    store_name = request.data.get('store_name')
+    store_names = request.data.get('store_names')
 
     # Check if the store name was provided
-    if not store_name:
-        return Response({'error' : 'store_name is required'})
+    if not store_names:
+        return Response({'error' : 'store_names are required'})
     
-    api_url = f"{REQUEST_URL}/get_products_by_stores"
+    api_url = f"{REQUEST_URL}/get_products_by_store_names"
 
     # send to rpc function at supabase
-    payload = {"store_name" : store_name}
+    payload = {"store_filters" : store_names }
 
     try:
         # Send POST to rpc
@@ -121,6 +121,7 @@ def get_products(request):
         # If succeed
         if response.status_code == 200:
             products_data = response.json()
+            print(f"Products DATA: {products_data}")
 
             if not products_data:
                 return Response({"error": "no products found for this store"})
@@ -128,7 +129,7 @@ def get_products(request):
             return Response(products_data)
         
         # Supabase error
-        return Response({'error': 'error reaching supabase api'})
+        return Response({'error': f'error reaching supabase api: {response.status_code}'})
     
     except requests.exceptions.RequestException as e:
         return Response({'error' : str(e)})
