@@ -87,12 +87,13 @@ const StoreFilter = () => {
         // set the setStores to the response from the API
     }
 
-    // Triggers once every mount
+    // Triggers once every component mount
+    // NOTE: [] is the dependency array, if empty, it will only run once
+    // This is bad practice, it should have something to depend on (trigger the useEffect)
     useEffect(() => {
         get_stores();
         get_products();
     }, []);
-
     return (
         <div>
              <DropDown

@@ -22,7 +22,7 @@
         "web-vitals": "^4.2.4"
     },
     "scripts": {
-        "start": "node load_env.js && react-scripts start",
+        "start": "react-scripts start && node load_env.js",
         "build": "react-scripts build",
         "test": "react-scripts test"
     },

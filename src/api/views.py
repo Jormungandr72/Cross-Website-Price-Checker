@@ -19,7 +19,6 @@ JC  2025-04-03     added get_stores and get_products endpoints
 
 # Create your views here.
 from rest_framework.response import Response
-from django.http import JsonResponse
 
 from rest_framework.decorators import api_view
 from django.conf import settings
@@ -42,7 +41,7 @@ headers = {
     "Content-Type": "application/json"
 }
 
-REQUEST_URL = SUPABASE_URL + '/rest/v1/rpc'
+REQUEST_URL = str(SUPABASE_URL) + '/rest/v1/rpc'
 
 # api view decorator to inherit Response + Request classes
 @api_view(['GET'])
@@ -82,7 +81,7 @@ def get_stores(request):
         return Response({"error" : "http error occurred"}, status=500)
 
     except RequestException as request_error:
-        # general request errors
+        # general request errors    
         logger.error(f"Error with the request: {request_error}")
 
     except Exception as e:
@@ -133,4 +132,3 @@ def get_products(request):
     
     except requests.exceptions.RequestException as e:
         return Response({'error' : str(e)})
-
