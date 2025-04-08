@@ -55,7 +55,7 @@ const StoreFilter = () => {
         try {
             axios.post(API_URL + 'get-products/', payload)
                 .then((response) => {
-                    console.log("Response data from get-products", response.data);
+                    console.log("\nResponse data from get-products", response.data, '\n');
 
                     // Check if the response contains an error
                     if (response.data.error) {
@@ -127,8 +127,8 @@ const StoreFilter = () => {
             <ul className="product-list">
                 {products.map((product) => (
                     <div>
-                        <img src={product.img} alt="product-img" />
-                        <li key={product.id}>{product.product_name} | ${product.price}</li>
+                        <img src={product.img_url} alt="product-img" />
+                        <li key={product.id}>{product.product_name} | ${product.price ? product.price : 0}</li>
                     </div>
                 ))}
             </ul>
