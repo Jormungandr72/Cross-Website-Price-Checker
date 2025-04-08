@@ -35,11 +35,13 @@ SUPABASE_KEY = os.getenv('SUPABASE_KEY')
 
 # Static files settings
 STATIC_URL = '/static/'
+
+# Static files
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # React build folder
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'react\\build\\static'),
+    os.path.join(BASE_DIR, 'react', 'build', 'static'),
 ]
 
 # Quick-start development settings - unsuitable for production
@@ -78,14 +80,12 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware'
 ]
 
-print(os.path.join(BASE_DIR + '\\react\\build'))
-
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR + '\\react\\build')],
+        'DIRS': [os.path.join(BASE_DIR + 'react', 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

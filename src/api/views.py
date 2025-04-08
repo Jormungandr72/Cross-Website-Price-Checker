@@ -121,7 +121,6 @@ def get_products(request):
         # If succeed
         if response.status_code == 200:
             products_data = response.json()
-            print(f"Products DATA: {products_data}")
 
             if not products_data:
                 return Response({"error": "no products found for this store"})
