@@ -32,7 +32,6 @@ const GoogleLoginButton = () => {
     };
 
     const clientId = process.env.REACT_APP_CLIENT_ID;
-    console.log(`clientId: ${clientId}`);
 
     if (!clientId) {
         console.error("Google client ID is not set in environment variables.");

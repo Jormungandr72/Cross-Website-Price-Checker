@@ -19,7 +19,7 @@ import axios from 'axios';
 import DropDown from '../molecules/dropdown.js';
 
 const StoreFilter = () => {
-    const API_URL = 'http://127.0.0.1:8000/api/test/';
+    const API_URL = `${process.env.REACT_APP_DEV_URL}:8000/api/test/`;
 
     const [stores, setStores] = useState([]);
     const [storeFilters, setStoreFilters] = useState([]);
@@ -53,7 +53,11 @@ const StoreFilter = () => {
         const payload = { 'store_names': storeNames }
         
         try {
-            axios.post(API_URL + 'get-products/', payload)
+            axios.post(API_URL + 'get-products/', payload, {
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8"
+                }
+            })
                 .then((response) => {
                     console.log("\nResponse data from get-products", response.data, '\n');
 
@@ -74,24 +78,6 @@ const StoreFilter = () => {
         } catch (err) {
             console.error(err);
         }
-
-        // Demo data for testing purposes
-        // const PRODUCTS = [
-        //     { id: 1, name: 'Product A', price: 10.00 },
-        //     { id: 2, name: 'Product B', price: 20.00 },
-        //     { id: 3, name: 'Product C', price: 30.00 },
-        //     { id: 4, name: 'Product D', price: 40.00 },
-        //     { id: 5, name: 'Product E', price: 50.00 },
-        //     { id: 6, name: 'Product F', price: 60.00 },
-        //     { id: 7, name: 'Product G', price: 70.00 },
-        //     { id: 8, name: 'Product H', price: 80.00 },
-        //     { id: 9, name: 'Product I', price: 90.00 },
-        //     { id: 10, name: 'Product J', price: 100.00 },
-        //     { id: 11, name: 'Product K', price: 110.00 },
-        //     { id: 12, name: 'Product L', price: 120.00 },
-        // ]
-
-        // setProducts(PRODUCTS);
     }
 
     // EventHandler for filter change
