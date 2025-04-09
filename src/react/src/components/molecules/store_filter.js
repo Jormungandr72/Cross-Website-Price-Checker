@@ -19,7 +19,7 @@ import axios from 'axios';
 import DropDown from '../molecules/dropdown.js';
 
 const StoreFilter = () => {
-    const API_URL = `${process.env.REACT_APP_DEV_URL}:8000/api/test/`;
+    const API_URL = '/api/test/';
 
     const [stores, setStores] = useState([]);
     const [storeFilters, setStoreFilters] = useState([]);
