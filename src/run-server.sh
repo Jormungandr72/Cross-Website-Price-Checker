@@ -67,5 +67,5 @@ fi
 rm installed_packages.txt
 
 echo "Packages up to date and virtual env startd, Starting the server..."
-python manage.py runserver
+python manage.py runserver 0.0.0.0:8000
 
