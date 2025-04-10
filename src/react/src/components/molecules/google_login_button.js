@@ -23,12 +23,12 @@ const GoogleLoginButton = () => {
     const handleSuccess = (response) => {
         console.log("Google sign-in success", response);
         // send auth to backend
-        navigate("/home");
+        navigate("/prices");
     };
 
     const handleFaliure = (response) => {
         console.error("Google sign-in failed:", response);
-        navigate("/home");
+        navigate("/prices");
     };
 
     const clientId = process.env.REACT_APP_CLIENT_ID;
