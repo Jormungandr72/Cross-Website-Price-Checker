@@ -2,21 +2,21 @@
 
 ---
 
-## Missing a PYTHON package? Try
+## Missing a PYTHON pip package? Try
 
 ```pip install -r requirements.txt```
-
-## Missing a npm (javascript npm) package?
+ 
+## Missing a node package?
 
 ```npm install```
 
 ## 'No react-scripts file' error?
 
-### Delete package.json and type
+### DELETE package.json and type
 
 ```npm install```
 
-## Got a new python package you want to put in the requirements.txt?
+## Just installed a new python package you want to put in the requirements.txt?
 
 ```pip freeze > requirements.txt```
 

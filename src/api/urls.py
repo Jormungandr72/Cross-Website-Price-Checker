@@ -1,8 +1,26 @@
+"""
+-------------------------------------------------------------------------------
+Program:    urls.py
+Author:     Justin Clark
+Date:       04/03/2025
+Language:   python 3.12.9
+Purpose:    This file is part of the Django project and is used to route requests
+            to the appropriate view functions.
+-------------------------------------------------------------------------------
+Change Log:
+Who  When           What
+JC  03.07.2025     created this file to handle API routing for the project
+JC  04.03.2025     added get_stores and get_products endpoints
+-------------------------------------------------------------------------------
+"""
+
 from django.urls import path
-from .views import test_api, get_price, get_products
+from .views import test_api
+from .views import get_stores
+from .views import get_products
 
 urlpatterns = [
-    path('test/', test_api), # example of a simple API endpoint
-    path('get_price/<int:product_id>/', get_price), # example of passing a parameter in the URL, GET request
-    path('get_products/', get_products), # example of a POST request
+    path('test-api/', test_api), # example of a simple API endpoint
+    path('test/get-stores/', get_stores),
+    path('test/get-products/', get_products),
 ]
