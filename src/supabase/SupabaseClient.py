@@ -33,3 +33,16 @@ class SupabaseClient:
 
         # Initialize Supabase client
         self.supabase_client = create_client(self.supabase_url, self.supabase_key)
+
+    def getReactData(self):
+        """
+        Gets data from supabase and returns a json file for use in
+        the react frontend.
+        Returns:
+            json: a json object with store name, product name, and price
+        """
+        store_names = (
+            self.supabase_client.table("stores")
+            .select("store_name")
+            .execute()
+        )
