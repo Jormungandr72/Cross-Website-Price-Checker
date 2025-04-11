@@ -5,6 +5,7 @@ import json
 import time
 import base64
 from typing import Dict
+import requests
 
 """
 -------------------------------------------------------------------------------
@@ -17,6 +18,12 @@ Purpose:    The purpose of this code is to collect data from the Nexar API for
 -------------------------------------------------------------------------------
 Change Log:
 Who  When           What
+PJM  04.11.2025     Was storing the json function instead of it's return value,
+                    causing the token to not .split() correctly. Now having 
+                    issues with retrieving the token, which I am in the process
+                    of solving.
+PJM  04.08.2025     Started debugging the token's inability to .split().
+PJM  04.08.2025     Updated imports, began working on the fetchData() method.
 PJM  04.01.2025     Updated method docstrings.
 PJM  04.01.2025     Began modifying Nexar code for the project requirements.
 PJM  04.01.2025     Imported Nexar code for checking expressions and queries.
@@ -67,6 +74,8 @@ class NexarClient:
         self._nexar_url = os.getenv("NEXAR_URL")
         self._token_url = os.getenv("NEXAR_TOKEN_URL")
 
+        self.session = requests.session()
+
         # Fetch the token and decode it
         self._token = self.decodeJWT(self.getToken())
 
@@ -93,10 +102,10 @@ class NexarClient:
                 data = {
                     "grant_type": "client credentials",
                     "client_id": self._client_id,
-                    "client_secret": self._client_secret
-                },
-                allow_redirects=False
-            ).json
+                    "client_secret": self._client_secret,
+                    "scope": "supply.domain"
+                }
+            ).json()
 
         except:
             raise Exception("Failed to retrieve token data.")
@@ -115,7 +124,6 @@ class NexarClient:
         return json.loads(
             (base64.urlsafe_b64decode(token.split(".")[1] + "==")).decode("utf-8")
         )
-    
     
     def checkExp(self):
         """
@@ -137,18 +145,32 @@ class NexarClient:
         """
         try:
             self.check_exp()
-            r = self.s.post(
+            response = self.s.post(
                 self._nexar_url,
                 json={"query": query, "variables": variables},
             )
+
+            self.fetchData(response)
 
         except Exception as e:
             print(e)
             raise Exception("Error while getting Nexar response")
 
-        response = r.json()
+        response = response.json()
         if ("errors" in response):
             for error in response["errors"]: print(error["message"])
             raise SystemExit
 
         return response["data"]
+    
+    def fetchData(self, n_response):
+        """
+        Puts data from the nexar client into the database.
+        Args:
+            n_response reponse: the nexar query response
+        """
+        p_response = requests.post(self._nexar_url)
+
+if __name__ == "__main__":
+    n_client = NexarClient()
+    n_client.getQuery("", {})
