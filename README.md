@@ -8,47 +8,45 @@ PriceScout is dedicated to empowering smart shoppers by providing a seamless, we
 
 ## Table of Contents
 
-- [Installation](#installation)
-
-- [Usage](#Usage)
-
-- [License](#License)
+> - [Installation](#installation)
+> - [Usage](#Usage)
+> - [License](#License)
 
 ## Installation
 
-1. Clone the repo:
+### 1. Clone the repo
+
 ```bash
 git clone https://github.com/Jormungandr72/Cross-Website-Price-Checker.git
 ```
 
-2. Install dependencies
+### 2. Install dependencies
 
-Frontend:
+React dependencies:
 ```bash
-cd react
+cd ./Cross-Website-Price-Checker/src/react
 npm install
 ```
 
-Backend:
+Django
 
 ```bash
 cd backend
+pip install django
 pip install -r requirements.txt
 ```
 
 3. Set environment variables in .env file(s):
-- react env
-- root env
+- Cross-Website-Price-Checker/src/react/.env
+- Cross-Website-Price-Checker/src/.env
 
 React .env
 ```bash
-REACT_APP_SUPABASE_URL=
-REACT_APP_SUPABASE_KEY=
-
+> For Google OAuth
 REACT_APP_CLIENT_ID=
 ```
 
-Backend .env
+Django .env
 ```bash
 SUPABASE_URL=
 SUPABASE_KEY=
@@ -56,21 +54,24 @@ SUPABASE_KEY=
 
 4. Start the application:
 
-Frontend:
+React:
 ```bash
-cd react
-npm start
+cd Cross-Website-Price-Checker/src/react
+npm run build
 ```
 
-Backend:
+Django, serving react:
 ```bash
 cd backend
-python manage.py runserver
+python manage.py runserver (optional)[ip:port_number]
 ```
 
 ## Usage
 
-- After starting both react and django servers, go to 'http://localhost:8000'.
+> After building the react app and starting the Django server, head to the ip address you supplied to runserver, unless you didn't specify one then the default is... 
+```
+localhost:8000
+```
 
 <!-- Features:... -->
 
