@@ -21,7 +21,7 @@ body {
 
 nav {
     background-color: #333;
-    padding: 15px 0;
+    padding: 15px;
 
     border-radius: 30px;
 }
@@ -30,7 +30,7 @@ nav ul {
     list-style: none;
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 5px;
     padding: 0;
 }
 
@@ -39,8 +39,7 @@ nav ul li a {
     color: white;
     font-size: calc(10px + 2vh);
     font-weight: 600;
-    padding: 10px 15px;
-
+    padding: 1rem;
     transition: color 0.3 ease-in-out;
 }
 
@@ -50,6 +49,25 @@ nav ul li.right {
 
 nav ul li a:hover {
     color: #ff5722;
+}
+
+nav ul li:not(:last-child)::after {
+    content: '/';
+    color: white;
+    margin-left: 5px;
+}
+
+/* For mobile, swtich to column layout and remove seperators */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li:not(:last-child)::after {
+        content: '';
+
+    }
 }
 
 h1,
