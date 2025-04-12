@@ -31,7 +31,8 @@ const GoogleLoginButton = () => {
         navigate("/prices");
     };
 
-    const clientId = process.env.REACT_APP_CLIENT_ID;
+    // const clientId = process.env.REACT_APP_CLIENT_ID;
+    const clientId = ""
 
     if (!clientId) {
         console.error("Google client ID is not set in environment variables.");

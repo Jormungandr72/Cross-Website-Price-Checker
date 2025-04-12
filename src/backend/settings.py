@@ -41,7 +41,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # React build folder
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'react', 'build', 'static'),
+    os.path.join(BASE_DIR, 'react', 'dist'),
 ]
 
 # Quick-start development settings - unsuitable for production
@@ -85,7 +85,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR + '/react', 'build')],
+        'DIRS': [os.path.join(BASE_DIR + '/react', 'dist')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

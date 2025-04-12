@@ -16,7 +16,7 @@ JC   2025-04-05     Added functionality to handle multiple selections and displa
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import DropDown from '../molecules/dropdown.js';
+import DropDown from './dropdown.jsx';
 
 const StoreFilter = () => {
     const API_URL = '/api/test/';
