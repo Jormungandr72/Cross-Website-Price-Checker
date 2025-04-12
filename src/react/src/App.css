@@ -10,12 +10,7 @@
 }
 
 body {
-    /* background-color: #2980b9; */
     background-color: #00bcd4;
-
-    /* font-size: calc(2vmin * 1.5); */
-    font-size: 24px;
-
     text-align: center;
 }
 
@@ -24,6 +19,10 @@ nav {
     padding: 15px;
 
     border-radius: 30px;
+    width: 75%;
+    margin: 10px auto;
+
+    animation: shrink-nav 0.75s ease-in-out;
 }
 
 nav ul {
@@ -31,7 +30,15 @@ nav ul {
     display: flex;
     justify-content: center;
     gap: 5px;
-    padding: 0;
+}
+
+nav ul li {
+    padding: 0.5rem 1rem;
+    transition: padding 0.3s ease-in-out;
+}
+
+nav ul li:hover {
+    padding: 0.5rem 1.5rem;
 }
 
 nav ul li a {
@@ -40,7 +47,6 @@ nav ul li a {
     font-size: calc(10px + 2vh);
     font-weight: 600;
     padding: 1rem;
-    transition: color 0.3 ease-in-out;
 }
 
 nav ul li.right {
@@ -68,11 +74,26 @@ nav ul li:not(:last-child)::after {
         content: '';
 
     }
+
+    p {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
 }
 
 h1,
 h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
     text-align: center;
+    margin-bottom: 1rem;
+}
+
+p {
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 65ch;
+    margin: 0 auto;
 }
 
 hr {
@@ -143,5 +164,25 @@ div {
 @keyframes grow {
     50% {
         transform: scale(1.05);
+    }
+}
+
+@keyframes shrink-nav {
+    0% {
+        width: 100%;
+    }
+
+    100% {
+        width: 75%;
+    }
+}
+
+@keyframes spread-nav {
+    0% {
+        width: 75%;
+    }
+
+    100% {
+        width: 100%;
     }
 }
