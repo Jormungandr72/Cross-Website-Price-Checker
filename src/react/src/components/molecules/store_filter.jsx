@@ -29,12 +29,11 @@ const StoreFilter = () => {
     const get_stores = () => {
         try
         {
-            axios.post(API_URL + 'get-stores/', {}, {
-                    headers: {
-                        "Content-Type" : "application/json; charset=UTF-8"
-                    }
-                }
-            )
+            const headers = {
+                "Content-Type": "application/json; charset=UTF-8"
+            }
+
+            axios.post(API_URL + 'get-stores/', {}, headers)
             .then((data => {
                 console.log(data.data)
                 setStores(data.data);
