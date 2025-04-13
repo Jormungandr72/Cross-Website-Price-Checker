@@ -29,7 +29,7 @@ const StoreFilter = () => {
     const get_stores = () => {
         try
         {
-            axios.post(API_URL + 'get-stores/', {
+            axios.post(API_URL + 'get-stores/', {}, {
                     headers: {
                         "Content-Type" : "application/json; charset=UTF-8"
                     }
