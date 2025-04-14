@@ -1,0 +1,41 @@
+Contribution Log
+
+Patrick
+
+- Updated docs and did work on team organization
+- Improved team meeting structure
+- Worked on API fetch script
+- Reworded slides, filled assigned slides
+- Refactored documentation for system changes
+
+Steven
+
+- Fulfilled role as DB admin and sql member
+- Added delete function for cleaning up user sessions
+- Added RPC functions for the backend
+- Clarified relations between relevant data tables
+- Helped debug backend
+- Established multiple diagrams
+  - ERD
+  - RPC
+  - Data flow
+- Laid out slides, filled assigned slides
+
+Justin
+
+- Worked the majority of the backend coding
+- Created API endpoints in Django
+  - get_stores
+  - get_products
+- Created React components
+  - store-filter
+  - google-login
+  - prices
+- Facilitated communication between frameworks
+- Moved project to AWS cloud
+  - Created reverse proxy configuration
+  - Created green unicorn daemon
+
+Jeffery - null
+
+Tanas - null
