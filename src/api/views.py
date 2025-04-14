@@ -105,13 +105,15 @@ def get_products(request):
     Needs:
         store_name in form of json like:
         {
-            store_name: my_store
+            store_names: my_store
         }
     """
     # Get store name to filter stores
     store_names = request.data.get('store_names')
 
-    logger.info(f"[DEBUG] =========== store_names: {store_names}")
+    print (f"store_names: {store_names}")
+
+
 
     # Check if the store name was provided
     if not store_names:
