@@ -54,13 +54,20 @@ def get_stores(request):
     Fetches a list of stores from the Supabase API using a custom RPC function
 
     """
+    return requests.post(f"{REQUEST_URL}/get_stores", headers=headers, timeout=10)
     try:
         # Send POST request to Supabase API
         response = requests.post(f"{REQUEST_URL}/get_stores", headers=headers, timeout=10)
 
         # Successful response
         if (response.status_code == 200):
-            stores_data = response.json()
+            try:
+                # Check if the response is valid JSON
+                stores_data = response.json()
+            except ValueError:
+                # Handle the case where the response is not valid JSON
+                logger.error("Response is not valid JSON")
+                return Response({"error" : "Response was an invalid JSON response"}, status=500)
 
             # Check valid data
             if not stores_data:
