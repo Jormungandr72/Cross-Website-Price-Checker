@@ -27,7 +27,7 @@ from dotenv import load_dotenv
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Load environment variables from env file at src
-env_path = os.path.join(BASE_DIR, 'shared-config', '.env')
+env_path = os.path.join(BASE_DIR, '.env')
 print(f"[DEBUG] ======= Environment variables path: {env_path} ===========")
 load_dotenv(env_path)
 print(f"[DEBUG] ======= SUPABASE_URL: {os.getenv("SUPABASE_URL")} ===========")
