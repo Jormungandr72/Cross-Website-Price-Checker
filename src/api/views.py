@@ -41,7 +41,7 @@ headers = {
     "Content-Type": "application/json"
 }
 
-REQUEST_URL = str(SUPABASE_URL) + '/rest/v1/rpc'
+REQUEST_URL = SUPABASE_URL + '/rest/v1/rpc'
 
 # api view decorator to inherit Response + Request classes
 @api_view(['GET'])
