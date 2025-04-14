@@ -45,7 +45,8 @@ const StoreFilter = () => {
     }
 
     const get_products = (store = null) => {
-        const payload = { 'store_names': storeNames }
+        // const payload = { 'store_names': storeNames }
+        console.log("Store names:", storeNames);
         
         try {
             axios.post(API_URL + 'get-products/', payload, {
@@ -80,7 +81,7 @@ const StoreFilter = () => {
         const selectedIds = event.target.value;
         setStoreFilters(selectedIds);
         console.log("Selected store IDs:", selectedIds);
-        console.log("Selected store names:", event.target.options[event.target.selectedIndex].text);
+        
 
         // get store names
         const selectedStoreNames = stores
