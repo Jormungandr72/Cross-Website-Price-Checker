@@ -54,7 +54,9 @@ def get_stores(request):
     Fetches a list of stores from the Supabase API using a custom RPC function
 
     """
-    return requests.post(f"{REQUEST_URL}/get_stores", headers=headers, timeout=10)
+    response = requests.post(f"{REQUEST_URL}/get_stores", headers=headers, timeout=10)
+    return Response(response.json())
+
     try:
         # Send POST request to Supabase API
         response = requests.post(f"{REQUEST_URL}/get_stores", headers=headers, timeout=10)
