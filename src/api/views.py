@@ -111,6 +111,8 @@ def get_products(request):
     # Get store name to filter stores
     store_names = request.data.get('store_names')
 
+    print(f"[DEBUG] ============ store_names:{store_names} ===========")
+
     # Check if the store name was provided
     if not store_names:
         return Response({'error' : 'store_names are required'})
