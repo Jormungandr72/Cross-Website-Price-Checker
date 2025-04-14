@@ -79,6 +79,8 @@ const StoreFilter = () => {
     const handleFilterChange = (event) => {
         const selectedIds = event.target.value;
         setStoreFilters(selectedIds);
+        console.log("Selected store IDs:", selectedIds);
+        console.log("Selected store names:", event.target.options[event.target.selectedIndex].text);
 
         // get store names
         const selectedStoreNames = stores

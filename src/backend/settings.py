@@ -40,11 +40,10 @@ STATIC_URL = '/static/'
 # Static files
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-# NGINX now serves the static files, so we don't need to set this in Django
-# # React build folder
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'react', 'dist'),
-# ]
+# React build folder
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'react', 'dist', 'assets'),
+]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -87,8 +86,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # 'DIRS': [os.path.join(BASE_DIR + '/react', 'dist')], # nginx serves this now
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR + '/react', 'dist')], # nginx serves this now
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
