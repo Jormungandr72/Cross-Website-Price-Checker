@@ -99,14 +99,21 @@ def get_stores(request):
             },
             status=504
         )
-
-    # Connection error, DNS failed, connection refused
-    except ConnectionError as conn_error:
-        # general request errors    
-        logger.error(f"Connection error: {conn_error}")
+    
+    except requests.exceptions.HTTPError as e:
+        logger.error(f"HTTP error: {e}")
         return Response(
             {
-                "error": "A connection error occurred. Please try again later."
+                "error": "An HTTP error occurred. Please try again later."
+            },
+            status=e.response.status_code
+        )
+    
+    except RequestException as e:
+        logger.error(f"Request exception: {e}")
+        return Response(
+            {
+                "error": "A request error occurred. Please try again later."
             },
             status=status.HTTP_502_BAD_GATEWAY
         )
@@ -176,13 +183,20 @@ def get_products(request):
             }, status=status.HTTP_504_GATEWAY_TIMEOUT
         )
     
-    # Connection error, DNS failed, connection refused
-    except ConnectionError as conn_error:
-        # general request errors    
-        logger.error(f"Connection error: {conn_error}")
+    except requests.exceptions.HTTPError as e:
+            logger.error(f"HTTP error: {e}")
+            return Response(
+                {
+                    "error": "An HTTP error occurred. Please try again later."
+                },
+                status=e.response.status_code
+            )
+        
+    except RequestException as e:
+        logger.error(f"Request exception: {e}")
         return Response(
             {
-                "error": "A connection error occurred. Please try again later."
+                "error": "A request error occurred. Please try again later."
             },
             status=status.HTTP_502_BAD_GATEWAY
         )
