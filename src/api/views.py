@@ -111,15 +111,6 @@ def get_stores(request):
             status=status.HTTP_502_BAD_GATEWAY
         )
     
-    # Specific URL error
-    except RequestException as e:
-        logger.error(f"Url was malformed: {e}")
-        return Response(
-            {
-                "error": "URL was malformed"
-            }, 
-            status=status.HTTP_400_BAD_REQUEST
-        )
 
 @api_view(['POST'])
 def get_products(request):
@@ -194,14 +185,4 @@ def get_products(request):
                 "error": "A connection error occurred. Please try again later."
             },
             status=status.HTTP_502_BAD_GATEWAY
-        )   
-
-    # Specific URL error
-    except RequestException as e:
-        logger.error(f"Url was malformed: {e}")
-        return Response(
-            {
-                "error": f"{api_url} URL was malformed"
-            }, 
-            status=status.HTTP_400_BAD_REQUEST
         )
