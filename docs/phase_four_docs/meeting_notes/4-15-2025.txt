@@ -8,4 +8,26 @@ Meeting Objectives:
 - Make a list of tasks to focus
 - Start work on remaining tasks
 
-Additional Notes:
+Attendance:
+- Patrick
+- Steven
+- Justin
+- 
+-
+
+Notes:
+- Priorities
+  - Data Visualization
+  - Get actual data
+- Tasks
+  - Login
+  - Generate Nexar token manually
+- Data Visuals
+  - GraphSQL?
+  - React-based?
+- Documents
+  - Change Log
+  - Lessons Learned
+- Sharing
+  - Screenshots (of GUI) folder
+  - Presentation
