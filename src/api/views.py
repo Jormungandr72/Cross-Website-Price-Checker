@@ -24,7 +24,7 @@ from django.conf import settings
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from requests.exceptions import RequestException, Timeout
+from requests.exceptions import RequestException, Timeout, RequestException
 
 # Use the django logger instead of print
 # This will return the name of the current logger, if none then create a new one
@@ -42,7 +42,7 @@ headers = {
 }
 
 # Concatenate supabaseurl with supabase's rest api url
-REQUEST_URL = SUPABASE_URL + '/rest/v1/rpc'
+REQUEST_URL = SUPABASE_URL + 'rest/v1/rpc'
 
 # Keep for testing purposes
 @api_view(['GET'])
@@ -100,10 +100,26 @@ def get_stores(request):
             status=504
         )
 
-    # General Catch-all for network errors
-    except RequestException as request_error:
+    # Connection error, DNS failed, connection refused
+    except ConnectionError as conn_error:
         # general request errors    
-        logger.error(f"Error with the request: {request_error}")
+        logger.error(f"Connection error: {conn_error}")
+        return Response(
+            {
+                "error": "A connection error occurred. Please try again later."
+            },
+            status=status.HTTP_502_BAD_GATEWAY
+        )
+    
+    # Specific URL error
+    except RequestException as e:
+        logger.error(f"Url was malformed: {e}")
+        return Response(
+            {
+                "error": "URL was malformed"
+            }, 
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
 @api_view(['POST'])
 def get_products(request):
@@ -169,12 +185,23 @@ def get_products(request):
             }, status=status.HTTP_504_GATEWAY_TIMEOUT
         )
     
-    # General Catch-all for network errors
-    except RequestException as e:
-        logger.error(f"Request exception occurred: {e}")
+    # Connection error, DNS failed, connection refused
+    except ConnectionError as conn_error:
+        # general request errors    
+        logger.error(f"Connection error: {conn_error}")
         return Response(
             {
-            "error": "An error occurred while processing the request. Please try again later."
+                "error": "A connection error occurred. Please try again later."
             },
-            status=500
+            status=status.HTTP_502_BAD_GATEWAY
+        )   
+
+    # Specific URL error
+    except RequestException as e:
+        logger.error(f"Url was malformed: {e}")
+        return Response(
+            {
+                "error": "URL was malformed"
+            }, 
+            status=status.HTTP_400_BAD_REQUEST
         )
