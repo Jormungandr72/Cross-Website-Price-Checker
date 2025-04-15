@@ -50,7 +50,7 @@ const StoreFilter = () => {
         console.log("Payload for get-products:", payload);
 
         try {
-            axios.post(API_URL + 'get-products/', payload, {
+            axios.post(API_URL + 'get-products/', JSON.stringify(payload), {
                 headers: {
                     "Content-Type": "application/json; charset=UTF-8"
                 }

@@ -20,6 +20,7 @@ JC  2025-04-03     added get_stores and get_products endpoints
 # Create your views here.
 import requests
 import logging
+import json
 from django.conf import settings
 from rest_framework import status
 from rest_framework.response import Response
@@ -37,7 +38,7 @@ SUPABASE_ANON_KEY = settings.SUPABASE_KEY
 # GLOBALLY Define headers for the Supabase RPC API requests
 headers = {
     "apikey": SUPABASE_ANON_KEY,
-    "Authorization": f"Bearer {SUPABASE_ANON_KEY}",
+    # "Authorization": f"Bearer {SUPABASE_ANON_KEY}",
     "Content-Type": "application/json"
 }
 
@@ -129,26 +130,31 @@ def get_products(request):
     Requires:
         store_name in the form of json like:
         {
-            store_names: my_store
+            store_names: ["my_store", "my_other_store"]
         }
     """
-    # Get store name to filter stores
+
+    # grab the store_names from the request data
     store_names = request.data.get('store_names')
+
+    # Check if the store_names is a string and convert it to a list
+    # store_names = json.loads(store_names) if isinstance(store_names, str) else store_names
 
     # Check if the store name was provided
     if not store_names:
         return Response({'error' : 'store_names are required'})
     
     # Form the RPC api url to send the request to
-    api_url = f"{REQUEST_URL}/get_products_by_store_names/"
-    print(f"api_url: {api_url}")
+    api_url = f"{REQUEST_URL}/get_products_by_store_names"
 
     # Define the payload to send to the api
-    payload = {"store_filters" : store_names }
+    payload = {
+        "stores_filters" : store_names
+    }
 
     try:
         # fetch the request to the supabase API
-        response = requests.post(api_url, headers=headers, json=payload)
+        response = requests.post(api_url, json=payload, headers=headers, timeout=10)
         response.raise_for_status()  # Catch all for HTTP errors
         
         if (response.status_code == 200):
@@ -166,7 +172,7 @@ def get_products(request):
             if not data:
                 return Response(
                     {
-                        "warning" : "No products found for the given store names"
+                        "warning" : f"No products found for the given store names {store_names}"
                     }, 
                     status=status.HTTP_204_NO_CONTENT
                 )
