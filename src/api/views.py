@@ -42,7 +42,7 @@ headers = {
 }
 
 # Concatenate supabaseurl with supabase's rest api url
-REQUEST_URL = SUPABASE_URL + '/rest/v1/rpc'
+REQUEST_URL = SUPABASE_URL + 'rest/v1/rpc'
 
 # Keep for testing purposes
 @api_view(['GET'])
