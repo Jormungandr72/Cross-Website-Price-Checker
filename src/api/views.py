@@ -15,8 +15,6 @@ JC  2025-04-03     added get_stores and get_products endpoints
 -------------------------------------------------------------------------------
 """
 
-
-
 # Create your views here.
 import requests
 import logging
@@ -35,7 +33,7 @@ logger = logging.getLogger(__name__)
 SUPABASE_URL = settings.SUPABASE_URL
 SUPABASE_ANON_KEY = settings.SUPABASE_KEY
 
-# GLOBALLY Define headers for the Supabase RPC API requests
+# Define headers for the Supabase RPC API requests
 headers = {
     "apikey": SUPABASE_ANON_KEY,
     # "Authorization": f"Bearer {SUPABASE_ANON_KEY}",
@@ -43,7 +41,7 @@ headers = {
 }
 
 # Concatenate supabaseurl with supabase's rest api url
-REQUEST_URL = SUPABASE_URL + 'rest/v1/rpc'
+REQUEST_URL = SUPABASE_URL + '/rest/v1/rpc'
 
 # Keep for testing purposes
 @api_view(['GET'])
@@ -135,10 +133,11 @@ def get_products(request):
     """
 
     # grab the store_names from the request data
+    print(request.data)
     store_names = request.data.get('store_names')
 
-    # Check if the store_names is a string and convert it to a list
-    # store_names = json.loads(store_names) if isinstance(store_names, str) else store_names
+    # Needed only on localhost testing
+    store_names = json.loads(store_names) if isinstance(store_names, str) else store_names
 
     # Check if the store name was provided
     if not store_names:

@@ -40,12 +40,10 @@ const StoreFilter = () => {
     const get_products = (store = null) => {
         const payload = { 'store_names': storeNames }
 
-        // console.log("Payload for get-products:", payload);
-
-        axios.post(API_URL + 'get-products/', JSON.stringify(payload), {
+        axios.post(API_URL + 'get-products/', payload, {
             headers: {
                 "Content-Type": "application/json; charset=UTF-8"
-            }
+            },
         })
             .then((response) => {
                 // console.log("\nResponse data from get-products", response.data, '\n');
