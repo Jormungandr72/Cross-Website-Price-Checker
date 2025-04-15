@@ -120,7 +120,6 @@ def get_products(request):
     """
     # Get store name to filter stores
     store_names = request.data.get('store_names')
-    logger.log(f"store_names: {store_names}")
 
     # Check if the store name was provided
     if not store_names:
