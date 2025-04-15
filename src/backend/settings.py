@@ -27,9 +27,7 @@ from dotenv import load_dotenv
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Load environment variables from env file at src
-print(f"[DEBUG] Loading environment variables from {os.path.join(BASE_DIR, 'shared-config', '.env')}")
 load_dotenv(os.path.join(BASE_DIR, 'shared-config', '.env'))
-print(f"[DEBUG] SUPABASE_URL : {os.getenv('SUPABASE_URL')}")
 
 # Access these in other files with django.conf.settings
 SUPABASE_URL = os.getenv('SUPABASE_URL')

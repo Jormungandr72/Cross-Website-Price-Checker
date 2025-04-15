@@ -18,32 +18,33 @@ JC  2025-04-03     added get_stores and get_products endpoints
 
 
 # Create your views here.
-from rest_framework.response import Response
-
-from rest_framework.decorators import api_view
-from django.conf import settings
-
 import requests
-from requests.exceptions import RequestException, Timeout, HTTPError
-
 import logging
+from django.conf import settings
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from requests.exceptions import RequestException, Timeout
 
-# Use the django logger instead of print, don't want users to find out how our program works
-# This will return the name of the current logger, if none then create one
+# Use the django logger instead of print
+# This will return the name of the current logger, if none then create a new one
 logger = logging.getLogger(__name__)
 
+# Set GLOBAL variables for the Supabase API
 SUPABASE_URL = settings.SUPABASE_URL
 SUPABASE_ANON_KEY = settings.SUPABASE_KEY
 
+# GLOBALLY Define headers for the Supabase RPC API requests
 headers = {
     "apikey": SUPABASE_ANON_KEY,
     "Authorization": f"Bearer {SUPABASE_ANON_KEY}",
     "Content-Type": "application/json"
 }
 
-REQUEST_URL = str(SUPABASE_URL) + '/rest/v1/rpc'
+# Concatenate supabaseurl with supabase's rest api url
+REQUEST_URL = SUPABASE_URL + '/rest/v1/rpc'
 
-# api view decorator to inherit Response + Request classes
+# Keep for testing purposes
 @api_view(['GET'])
 def test_api(request):
     return Response({'message' : "Hello, World! This is a test API from the django API app."})
@@ -53,41 +54,56 @@ def get_stores(request):
     """
     Fetches a list of stores from the Supabase API using a custom RPC function
 
+    Requires:
+        None
+
     """
     try:
         # Send POST request to Supabase API
         response = requests.post(f"{REQUEST_URL}/get_stores", headers=headers, timeout=10)
+        response.raise_for_status()  # Catch all for HTTP errors
 
         # Successful response
         if (response.status_code == 200):
-            stores_data = response.json()
+            try:
+                stores_data = response.json()
+            except ValueError:
+                # Handle the case where the response is not valid JSON
+                logger.error("Response is not valid JSON")
+                return Response(
+                    {
+                        "error" : "Response was an invalid JSON response"
+                    }, 
+                    status=500
+                )
 
-            # Check valid data
+            # Check for empty json inside response
             if not stores_data:
-                return Response({"error" : "No stores found"}, status=404)
+                return Response(
+                    {
+                        "warning" : "No stores found"
+                    }, 
+                    status=status.HTTP_204_NO_CONTENT
+                )
             
             # Valid data
-            return Response(response.json())
-        else:
-            return Response({"error" : "no stores found!"}, status=404)
+            return Response(stores_data, status=status.HTTP_200_OK)
+    
+    # Timeout Error
     except Timeout:
         # after x amount of time
         logger.error("Request to supabase url timed out")
-        return Response({"error" : "Request to supabase timed out"}, status=504)
+        return Response(
+            {
+                "error" : "Request to supabase timed out"
+            },
+            status=504
+        )
 
-    except HTTPError as http_error:
-        # HTTP errors 400, 404, 500
-        logger.error(f"Http error occurred: {http_error}")
-        return Response({"error" : "http error occurred"}, status=500)
-
+    # General Catch-all for network errors
     except RequestException as request_error:
         # general request errors    
         logger.error(f"Error with the request: {request_error}")
-
-    except Exception as e:
-        # The rest that wasn't caught before
-        logger.error(f"Unexpected error {e}")
-        return Response({"error" : "An unexpected error occured, please check the logs for more information"})
 
 @api_view(['POST'])
 def get_products(request):
@@ -96,39 +112,70 @@ def get_products(request):
     Fetches a list of products filtered by store name which is supplied by the client, from
         the Supabase API using a custom RPC function
 
-    Needs:
-        store_name in form of json like:
+    Requires:
+        store_name in the form of json like:
         {
-            store_name: my_store
+            store_names: my_store
         }
     """
     # Get store name to filter stores
     store_names = request.data.get('store_names')
+    logger.log(f"store_names: {store_names}")
 
     # Check if the store name was provided
     if not store_names:
         return Response({'error' : 'store_names are required'})
     
-    api_url = f"{REQUEST_URL}/get_products_by_store_names"
+    # Form the RPC api url to send the request to
+    api_url = f"{REQUEST_URL}/get_products_by_store_names/"
+    print(f"api_url: {api_url}")
 
-    # send to rpc function at supabase
+    # Define the payload to send to the api
     payload = {"store_filters" : store_names }
 
     try:
-        # Send POST to rpc
+        # fetch the request to the supabase API
         response = requests.post(api_url, headers=headers, json=payload)
-
-        # If succeed
-        if response.status_code == 200:
-            products_data = response.json()
-
-            if not products_data:
-                return Response({"error": "no products found for this store"})
-            
-            return Response(products_data)
+        response.raise_for_status()  # Catch all for HTTP errors
         
-        # Supabase error
-        return Response({'error': f'error reaching supabase api: {response.status_code}'})
+        if (response.status_code == 200):
+            try:
+                data = response.json()
+            except ValueError as e:
+                logger.error(f"Supabase JSON error: {e}")
+                return Response(
+                    {
+                        "error" : "Supabase API returned an invalid JSON response"
+                    }, 
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+
+            if not data:
+                return Response(
+                    {
+                        "warning" : "No products found for the given store names"
+                    }, 
+                    status=status.HTTP_204_NO_CONTENT
+                )
+            
+            # Valid data
+            return Response(data, status=status.HTTP_200_OK)
     
-    except requests.exceptions.RequestException as e:
-        return Response({'error' : str(e)})
+    # Timeout Error
+    except Timeout:
+        logger.error("Request to supabase url timed out")
+        return Response(
+            {
+                "error" : "Request to supabase timed out"
+            }, status=status.HTTP_504_GATEWAY_TIMEOUT
+        )
+    
+    # General Catch-all for network errors
+    except RequestException as e:
+        logger.error(f"Request exception occurred: {e}")
+        return Response(
+            {
+            "error": "An error occurred while processing the request. Please try again later."
+            },
+            status=500
+        )
