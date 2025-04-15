@@ -201,7 +201,7 @@ def get_products(request):
         logger.error(f"Url was malformed: {e}")
         return Response(
             {
-                "error": "URL was malformed"
+                "error": f"{api_url} URL was malformed"
             }, 
             status=status.HTTP_400_BAD_REQUEST
         )
