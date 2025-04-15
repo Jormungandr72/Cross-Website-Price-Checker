@@ -27,27 +27,20 @@ const StoreFilter = () => {
     const [products, setProducts] = useState([]);
 
     const get_stores = () => {
-        try
-        {
-            axios.post(API_URL + 'get-stores/')
+        axios.post(API_URL + 'get-stores/')
             .then((data => {
-                console.log(data.data)
+                // console.log(data.data)
                 setStores(data.data);
             }))
             .catch((error) => {
                 console.error(error);
             })
-        }
-        catch (err)
-        {
-            console.error(err);
-        }
     }
 
     const get_products = (store = null) => {
         const payload = { 'store_names': storeNames }
 
-        console.log("Payload for get-products:", payload);
+        // console.log("Payload for get-products:", payload);
 
         try {
             axios.post(API_URL + 'get-products/', JSON.stringify(payload), {
@@ -56,7 +49,7 @@ const StoreFilter = () => {
                 }
             })
                 .then((response) => {
-                    console.log("\nResponse data from get-products", response.data, '\n');
+                    // console.log("\nResponse data from get-products", response.data, '\n');
 
                     // Check if the response contains an error
                     if (response.data.error) {
@@ -65,9 +58,9 @@ const StoreFilter = () => {
                         return;
                     }
 
-                    const productNames = response.data.map((product) => product.product_name);
+                    // const productNames = response.data.map((product) => product.product_name);
                     setProducts(response.data);
-                    console.log("Product names:", productNames);
+                    // console.log("Product names:", productNames);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -81,7 +74,7 @@ const StoreFilter = () => {
     const handleFilterChange = (event) => {
         const selectedIds = event.target.value;
         setStoreFilters(selectedIds);
-        console.log("Selected store IDs:", selectedIds);
+        // console.log("Selected store IDs:", selectedIds);
         
 
         // get store names
@@ -89,8 +82,8 @@ const StoreFilter = () => {
             .filter(store => selectedIds.includes(store.store_id))
             .map(store => store.store_name);
 
-        console.log("Selected store IDs:", selectedIds);
-        console.log("Selected store names:", selectedStoreNames);
+        // console.log("Selected store IDs:", selectedIds);
+        // console.log("Selected store names:", selectedStoreNames);
 
         setStoreNames(selectedStoreNames);
     }
