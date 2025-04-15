@@ -27,7 +27,8 @@ from dotenv import load_dotenv
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Load environment variables from env file at src
-load_dotenv(os.path.join(BASE_DIR, 'shared-config', '.env'))
+env_path = os.path.join(BASE_DIR, 'shared-config', '.env')
+load_dotenv(env_path, override=True)
 
 # Access these in other files with django.conf.settings
 SUPABASE_URL = os.getenv('SUPABASE_URL')
@@ -85,7 +86,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR + '/react', 'build')],
+        'DIRS': [os.path.join(BASE_DIR + '\\react', 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
