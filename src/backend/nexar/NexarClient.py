@@ -5,7 +5,6 @@ import json
 import time
 import base64
 from typing import Dict
-import requests
 
 """
 -------------------------------------------------------------------------------
@@ -18,6 +17,10 @@ Purpose:    The purpose of this code is to collect data from the Nexar API for
 -------------------------------------------------------------------------------
 Change Log:
 Who  When           What
+PJM  04.16.2025     Began altering getQuery() to get the data that we need.
+                    The method is still in development, and has a few FIXMEs to
+                    work on.
+PJM  04.11.2025     Deleted redundant import of the requests module.
 PJM  04.11.2025     Was storing the json function instead of it's return value,
                     causing the token to not .split() correctly. Now having 
                     issues with retrieving the token, which I am in the process
@@ -143,13 +146,58 @@ class NexarClient:
         Returns:
 
         """
+        headers = {
+            "Authorization": f"Bearer {self._token}",
+            "Content-Type": "application/json"
+        }
         try:
             self.check_exp()
             response = self.s.post(
                 self._nexar_url,
-                json={"query": query, "variables": variables},
+                json={"query": """
+                        query {
+                            supSearch(q: "FIXME something else goes here", limit: 1) {
+                                results {
+                                    parts {
+                                        npm
+                                        manufacturer {
+                                            name
+                                        }
+                                        category {
+                                            name
+                                        }
+                                        specs {
+                                            attribute {
+                                                name
+                                            }
+                                        }
+                                        images {
+                                            url
+                                        }
+                                        sellerOffers {
+                                            company {
+                                                name
+                                            }
+                                            prices {
+                                                price
+                                                currency
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                """},
             )
 
+            response = requests.post(
+                "https://api.nexar.com/graphql",
+                headers=headers,
+                json=x # FIXME fill this in with correct variable
+            )
+
+            data = response.json()
+            print(data)
             self.fetchData(response)
 
         except Exception as e:
@@ -171,6 +219,4 @@ class NexarClient:
         """
         p_response = requests.post(self._nexar_url)
 
-if __name__ == "__main__":
-    n_client = NexarClient()
-    n_client.getQuery("", {})
+        
