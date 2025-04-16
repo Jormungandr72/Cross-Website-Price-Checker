@@ -37,7 +37,7 @@ const StoreFilter = () => {
             })
     }
 
-    const get_products = (store = null) => {
+    const get_products = () => {
         const payload = { 'store_names': storeNames }
 
         // console.log("Payload for get-products:", payload);
