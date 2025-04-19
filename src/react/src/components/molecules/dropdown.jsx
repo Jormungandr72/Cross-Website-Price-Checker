@@ -43,6 +43,7 @@ const DropDown = ({ storeFilters, stores, handleFilterChange }) => {
                 >
                     {stores.map((store) => (
                     <MenuItem key={store.store_id} value={store.store_id}>
+                        <Checkbox checked={storeFilters.indexOf(store.store_id) > -1} />
                         <ListItemText primary={store.store_name} />
                     </MenuItem>
                     ))}
