@@ -19,7 +19,7 @@ import { FormControl, InputLabel, Select, MenuItem, ListItemText } from '@mui/ma
 const DropDown = ({ storeFilters, stores, handleFilterChange }) => {
     return (
         <div>
-             <FormControl fullWidth>
+             <FormControl sx={{ width: 1000 }}>
                 <InputLabel id="store-select-label">Select Stores</InputLabel>
                 <Select
                     labelId="store-select-label"
@@ -28,6 +28,7 @@ const DropDown = ({ storeFilters, stores, handleFilterChange }) => {
                     label="Select Stores"
                     onChange={handleFilterChange}
                     renderValue={(selected) => {
+                    
                     return selected
                         .map((id) => stores.find((store) => store.store_id === id)?.store_name)
                         .join(", ");
