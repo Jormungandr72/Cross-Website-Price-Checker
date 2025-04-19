@@ -17,6 +17,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import DropDown from './dropdown.jsx';
+import PriceAccordion from './price_accordion.jsx';
 
 const StoreFilter = () => {
     const API_URL = '/api/test/';
@@ -107,6 +108,11 @@ const StoreFilter = () => {
                     <div>
                         <img src={product.img_url} alt="product-img" />
                         <li key={product.id}>{product.product_name} | ${product.price ? product.price : 0}</li>
+                        <PriceAccordion
+                            title={product.product_name} 
+                            price={product.price}
+                            children={product.product_description}
+                        />
                     </div>
                 ))}
             </ul>
