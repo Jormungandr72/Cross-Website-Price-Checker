@@ -14,7 +14,7 @@ JC   2025-04-06      added material UI and improved accessibility features
 -------------------------------------------------------------------------------
 */
 
-import { FormControl, InputLabel, Select, MenuItem, ListItemText } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, ListItemText, Checkbox } from '@mui/material';
 
 const DropDown = ({ storeFilters, stores, handleFilterChange }) => {
     return (
