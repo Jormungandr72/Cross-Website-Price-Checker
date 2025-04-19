@@ -27,8 +27,15 @@ const DropDown = ({ storeFilters, stores, handleFilterChange }) => {
                     value={storeFilters}
                     label="Select Stores"
                     onChange={handleFilterChange}
+                    MenuProps={{
+                        PaperProps: {
+                            style: {
+                                maxHeight: Math.min(storeFilters.length, 5) * 45 * 5.5
+                            },
+                        },
+                    }}
+
                     renderValue={(selected) => {
-                    
                     return selected
                         .map((id) => stores.find((store) => store.store_id === id)?.store_name)
                         .join(", ");
