@@ -107,10 +107,10 @@ const StoreFilter = () => {
                 {products.map((product) => (
                     <div>
                         <img src={product.img_url} alt="product-img" />
-                        <li key={product.id}>{product.product_name} | ${product.price ? product.price : 0}</li>
+                        {/* <li key={product.id}>{product.product_name} | ${product.price ? product.price : 0}</li> */}
                         <PriceAccordion
                             title={product.product_name} 
-                            price={product.price}
+                            price={product.price ? product.price : 0}
                             children={product.product_description}
                         />
                     </div>
