@@ -30,7 +30,7 @@ const DropDown = ({ storeFilters, stores, handleFilterChange }) => {
                     MenuProps={{
                         PaperProps: {
                             style: {
-                                maxHeight: Math.min(storeFilters.length, 5) * 45 * 5.5
+                                maxHeight: 45 * 5.5
                             },
                         },
                     }}
