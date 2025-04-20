@@ -17,6 +17,7 @@ Purpose:    The purpose of this code is to collect data from the Nexar API for
 -------------------------------------------------------------------------------
 Change Log:
 Who  When           What
+PJM  04.20.2025     Reworked the token retrieval and processing.
 PJM  04.16.2025     Began altering getQuery() to get the data that we need.
                     The method is still in development, and has a few FIXMEs to
                     work on.
@@ -80,11 +81,48 @@ class NexarClient:
         self.session = requests.session()
 
         # Fetch the token and decode it
-        self._token = self.decodeJWT(self.getToken())
+        self._token_json = self.getToken()
+        self._token = self._token_json.get('access token')
+        self._exp = self.decodeJWT(self._token).get('exp')
+
 
         # Write token to root .env file
         set_key(dotenv_path = "Cross-Website-Price-Checker/.env", 
                 key_to_set = "NEXAR_TOKEN", value_to_set = self._token)
+        
+        self._query = """
+            query totalAvailability {
+            supSearch(
+                q: "motor",
+                country: "US",
+                limit: 10
+            ){
+                results {
+                    part {
+                        descriptions {
+                            text
+                        }
+                        totalAvail
+                        category {
+                            name
+                        }
+                        sellers {
+                            company {
+                                name
+                            }
+                            offers {
+                                prices
+                                {
+                                    price
+                                    currency
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    """
  
     # Getters
 
@@ -133,67 +171,30 @@ class NexarClient:
         Checks for the expiration of the nexar token.
         """
         if (self.exp < time.time() + 300):
-            self.token = self.getToken(self.id, self.secret)
-            self.s.headers.update({"token": self.token.get('access_token')})
-            self.exp = self.decodeJWT(self.token.get('access_token')).get('exp')
+            self.session.headers.update({"token": self._token.get('access_token')})
+            self.exp = self.decodeJWT(self._token).get('exp')
 
     def getQuery(self, query: str, variables: Dict):
         """
         Gets and returns the Nexar response for a query.
         Args:
-            query string:
-            variables dictionary:
-        Returns:
-
+            query string: the query to be passed to the Nexar API
+            variables dictionary: 
         """
         headers = {
             "Authorization": f"Bearer {self._token}",
             "Content-Type": "application/json"
         }
         try:
-            self.check_exp()
-            response = self.s.post(
-                self._nexar_url,
-                json={"query": """
-                        query {
-                            supSearch(q: "FIXME something else goes here", limit: 1) {
-                                results {
-                                    parts {
-                                        npm
-                                        manufacturer {
-                                            name
-                                        }
-                                        category {
-                                            name
-                                        }
-                                        specs {
-                                            attribute {
-                                                name
-                                            }
-                                        }
-                                        images {
-                                            url
-                                        }
-                                        sellerOffers {
-                                            company {
-                                                name
-                                            }
-                                            prices {
-                                                price
-                                                currency
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                """},
-            )
+            self.checkExp()
 
-            response = requests.post(
-                "https://api.nexar.com/graphql",
+            response = self.session.post(
+                self._nexar_url,
                 headers=headers,
-                json=x # FIXME fill this in with correct variable
+                json = {
+                    "query": query,
+                    "variables": variables
+                }
             )
 
             data = response.json()
@@ -218,5 +219,3 @@ class NexarClient:
             n_response reponse: the nexar query response
         """
         p_response = requests.post(self._nexar_url)
-
-        
