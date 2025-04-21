@@ -206,3 +206,64 @@ def get_products(request):
             },
             status=status.HTTP_502_BAD_GATEWAY
         )
+
+@api_view(['POST'])
+def get_graph_data(request):
+    """ Retrieves graph data from the Supabase API using a custom RPC function """
+
+    # create the api url to send the request to
+    api_url = f"{REQUEST_URL}/get_graph_data"
+
+    try:
+        response = requests.post(api_url, headers=headers, timeout=10)
+        response.raise_for_status()  # Catch all for HTTP errors
+
+        if (response.status_code == 200):
+            try:
+                data = response.json()
+            except ValueError as e:
+                logger.error(f"Supabase JSON error: {e}")
+                return Response(
+                    {
+                        "error" : "Supabase API returned an invalid JSON response"
+                    }, 
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+
+            if not data:
+                return Response(
+                    {
+                        "warning" : "No graph data found"
+                    }, 
+                    status=status.HTTP_204_NO_CONTENT
+                )
+            
+            # Valid data
+            return Response(data, status=status.HTTP_200_OK)
+        
+    # Timeout Error
+    except Timeout:
+        logger.error("Request to supabase url timed out")
+        return Response(
+            {
+                "error" : "Request to supabase timed out"
+            }, status=status.HTTP_504_GATEWAY_TIMEOUT
+        )
+    
+    except requests.exceptions.HTTPError as e:
+            logger.error(f"HTTP error: {e}")
+            return Response(
+                {
+                    "error": "An HTTP error occurred. Please try again later."
+                },
+                status=e.response.status_code
+            )
+        
+    except RequestException as e:
+        logger.error(f"Request exception: {e}")
+        return Response(
+            {
+                "error": "A request error occurred. Please try again later."
+            },
+            status=status.HTTP_502_BAD_GATEWAY
+        )
