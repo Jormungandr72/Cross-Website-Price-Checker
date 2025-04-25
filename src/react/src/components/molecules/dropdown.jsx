@@ -19,7 +19,7 @@ import { FormControl, InputLabel, Select, MenuItem, ListItemText, Checkbox } fro
 const DropDown = ({ storeFilters, stores, handleFilterChange }) => {
     return (
         <div>
-             <FormControl sx={{ width: 1000 }}>
+             <FormControl sx={{ width: 600 }}>
                 <InputLabel id="store-select-label">Select Stores</InputLabel>
                 <Select
                     labelId="store-select-label"

@@ -17,20 +17,26 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import DropDown from './dropdown.jsx';
+import SearchBox from './searchbox.jsx'
 import PriceAccordion from './price_accordion.jsx';
 
 const StoreFilter = () => {
-    const API_URL = '/api/test/';
+    /* ===================================================== */
+    /* CHANGE WHEN MOVING TO EC2 | CHANGE WHEN MOVING TO EC2 */
+    /* ===================================================== */
+    const API_URL = 'http://localhost:8000/api/test/';
 
     const [stores, setStores] = useState([]);
     const [storeFilters, setStoreFilters] = useState([]);
     const [storeNames, setStoreNames] = useState([]);
     const [products, setProducts] = useState([]);
+    const [filteredProducts, setfilteredProducts] = useState([])
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedProducts, setSelectedProducts] = useState([]);
 
     const get_stores = () => {
         axios.post(API_URL + 'get-stores/')
             .then((data => {
-                // console.log(data.data)
                 setStores(data.data);
             }))
             .catch((error) => {
@@ -72,12 +78,17 @@ const StoreFilter = () => {
     }
 
     // EventHandler for filter change
+    const handleSearchChange = (newValue) => {
+        setSearchTerm(newValue)
+        console.log("Search term in parent:", newValue);
+    }
+
+    // EventHandler for filter change
     const handleFilterChange = (event) => {
         const selectedIds = event.target.value;
         setStoreFilters(selectedIds);
         // console.log("Selected store IDs:", selectedIds);
         
-
         // get store names
         const selectedStoreNames = stores
             .filter(store => selectedIds.includes(store.store_id))
@@ -89,32 +100,92 @@ const StoreFilter = () => {
         setStoreNames(selectedStoreNames);
     }
 
-    // Triggers once every component mount
+    const toggleSelectProduct = (product) => {
+        const selected = selectedProducts.find(p => p.id == product.id)
+
+        if (selected) {
+            setSelectedProducts(prev => prev.filter(p => p.id !== product.id))
+        }  else if (selectedProducts.length < 2) {
+            setSelectedProducts(prev => [...prev, product]);
+        } else {
+            alert("You can only compare 2 products at a time!");
+        }
+    }
+
     useEffect(() => {
         get_stores();
-        get_products(storeFilters);
-    }, [storeFilters]);
+    }, []);
+
+    // Triggers once every component mount
+    useEffect(() => {
+        if (storeNames.length > 0) {
+            get_products();
+        }
+        else {
+            setProducts([]);
+            setSelectedProducts([])
+        }
+    }, [storeNames]);
+
+    useEffect(() => {
+        const delayDebounce = setTimeout(() => {
+            const filtered = products.filter((product) => {
+                return product.product_name.toLowerCase().includes(searchTerm.toLowerCase())
+            });
+            setfilteredProducts(filtered)
+        }, 450);
+
+        return () => clearTimeout(delayDebounce);
+    }, [searchTerm, products]);
+    
     return (
         <div>
-             <DropDown
+            <SearchBox onSearchChange={handleSearchChange} />
+            <DropDown
                 storeFilters={storeFilters}
                 stores={stores}
                 handleFilterChange={handleFilterChange}
             />
 
+            <h2>Comparison</h2>
+
+            {selectedProducts.length > 0 && (
+                <div className="comparison-panel">
+                    <h3>Compare Products</h3>
+                    <div className="comparison-items">
+                        {selectedProducts.map((product) => (
+                            <div key={product.id} className="comparison-card">
+                                <h4>{product.product_name}</h4>
+                                <img src={product.img_url} alt="product-img" />
+                                <p>Price: ${product.price}</p>
+                                <p>{product.product_description}</p>
+                            </div>
+                        ))}
+                    </div>
+                    <button onClick={() => setSelectedProducts([])}>Clear Comparison</button>
+                </div>
+            )}
+
             <h2>Products</h2>
             <ul className="product-list">
-                {products.map((product) => (
-                    <div>
+                {filteredProducts.map((product) => (
+                    <div
+                        key={product.id} 
+                        onClick={() => toggleSelectProduct(product)} 
+                        className={
+                            `product-card ${selectedProducts.find(p => p.id === product.id) ? 'selected' : ''}`
+                        }
+                    >
                         <img src={product.img_url} alt="product-img" />
-                        {/* <li key={product.id}>{product.product_name} | ${product.price ? product.price : 0}</li> */}
-                        <PriceAccordion
+                        {/* <PriceAccordion
                             title={product.product_name} 
                             price={product.price ? product.price : 0}
                             children={product.product_description}
-                        />
+                        /> */}
+                        <li>{`${product.product_name} $${product.price}`}</li>
                     </div>
                 ))}
+
             </ul>
         </div>
     );

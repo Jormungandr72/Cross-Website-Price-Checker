@@ -56,6 +56,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000", # CRA development server port
+    "http://localhost:5173", # Vite development server port
+]
+
 # Application definition
 
 INSTALLED_APPS = [

@@ -94,8 +94,8 @@ nav ul li:not(:last-child)::after {
 }
 
 .chart-container {
-    width: 600px;
-    height: 400px;
+    width: 700px;
+    height: 450px;
     background-color: #444;
     padding: 20px;
     border-radius: 12px;

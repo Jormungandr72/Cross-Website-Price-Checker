@@ -15,12 +15,9 @@ JC  2025-04-03     added get_stores and get_products endpoints
 -------------------------------------------------------------------------------
 """
 
-
-
 # Create your views here.
 import requests
 import logging
-import json
 from django.conf import settings
 from rest_framework import status
 from rest_framework.response import Response
@@ -38,7 +35,7 @@ SUPABASE_ANON_KEY = settings.SUPABASE_KEY
 # GLOBALLY Define headers for the Supabase RPC API requests
 headers = {
     "apikey": SUPABASE_ANON_KEY,
-    # "Authorization": f"Bearer {SUPABASE_ANON_KEY}",
+    "Authorization": f"Bearer {SUPABASE_ANON_KEY}",
     "Content-Type": "application/json"
 }
 
@@ -119,7 +116,6 @@ def get_stores(request):
             status=status.HTTP_502_BAD_GATEWAY
         )
     
-
 @api_view(['POST'])
 def get_products(request):
     """
@@ -208,14 +204,44 @@ def get_products(request):
         )
 
 @api_view(['POST'])
+def insert_product_data(request):
+    """ Inserts product data into the Supabase API using a custom RPC function """
+    # create the api url to send the request to
+    api_url = f"{REQUEST_URL}/insert_product_with_price"
+
+    # json_body = request.data.get('json_body')
+
+    # Replace this with the actual data you want to insert
+    # Code is above is commented out to prevent errors when testing
+    json_body = {
+        "in_product_name": "Example Product",
+        "in_brand": "Example Brand",
+        "in_model": "Model X",
+        "in_specs": { "color": "black", "size": "M" },
+        "in_image_url": "https://example.com/image.jpg",
+        "in_store_id": "1915ab14-30fa-4962-ae80-1b8c97caec92",
+        "in_price": 99.99,
+        "in_user_id": "017153fe-dbe4-4196-9dc8-40ed534d90b9",
+        "in_session_id": "00000000-0000-0000-0000-000000000000"
+    }
+
+    response = requests.post(api_url, headers=headers, json=json_body, timeout=10)
+    print(f"Status code: ", response.status_code)
+    print("Response: ", response.text)
+
+    return Response(data=response.json(), status=response.status_code)
+
+@api_view(['POST'])
 def get_graph_data(request):
     """ Retrieves graph data from the Supabase API using a custom RPC function """
 
     # create the api url to send the request to
-    api_url = f"{REQUEST_URL}/get_graph_data"
+    api_url = f"{REQUEST_URL}/get_product_prices_with_stores"
 
     try:
         response = requests.post(api_url, headers=headers, timeout=10)
+        print(f"Status code: ", response.status_code)
+        print("Response: ", response.text)
         response.raise_for_status()  # Catch all for HTTP errors
 
         if (response.status_code == 200):
@@ -230,6 +256,7 @@ def get_graph_data(request):
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
 
+            # Empty data check
             if not data:
                 return Response(
                     {
@@ -254,7 +281,7 @@ def get_graph_data(request):
             logger.error(f"HTTP error: {e}")
             return Response(
                 {
-                    "error": "An HTTP error occurred. Please try again later."
+                    "error": f"An HTTP error occurred. Please try again later. {e}"
                 },
                 status=e.response.status_code
             )
@@ -267,3 +294,15 @@ def get_graph_data(request):
             },
             status=status.HTTP_502_BAD_GATEWAY
         )
+
+@api_view(['POST'])
+def refresh_supabase_cache(request):
+    """ refreshes the supabase cache by calling the refresh_cache function """
+
+    # create the api url to send the request to
+    api_url = f"{REQUEST_URL}/pg_rest_refresh"
+
+    response = requests.post(api_url, headers=headers, timeout=10)
+    print(f"Status code: ", response.status_code)
+    print("Response: ", response.text)
+    return Response(data=response.json(), status=response.status_code)
