@@ -2,3 +2,12 @@ Patrick:
 - Leadership is difficult
   - Taking responsibility for mistakes
 - Understanding and gradually adjusting scope
+
+Steven:
+-Time management
+  - Making promises to do work in a strict time line and not meeting it
+-Working in a Group
+  - Understanding that regardless of personal opinion doing a large project 
+  - under time constraints you must learn to lean onto your team and assign jobs that match thier skill levels
+- Establishing a realistic scope and sticking to it
+  - In the real world, Investors and management, once a scope is established, will hold the developement team to that and expect results on a established timeline.
