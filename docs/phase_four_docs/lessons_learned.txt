@@ -17,3 +17,12 @@ Steven:
   - under time constraints you must learn to lean onto your team and assign jobs that match thier skill levels
 - Establishing a realistic scope and sticking to it
   - In the real world, Investors and management, once a scope is established, will hold the developement team to that and expect results on a established timeline.
+
+Justin:
+- writing tests for code especially with heavy frameworks working together is essential to maintain working code
+- error checking is really important for debugging, ties into writing tests
+- writing reusable code is really cool unless you use more time to make them than the time the project is allotted
+- to quote the Zen of python: (enter this code to view poem by Tim Peters)
+import this
+"Simple is better than complex; Now is better than never."
+- Using task management tools help in the long run of a large scale project
