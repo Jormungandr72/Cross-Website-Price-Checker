@@ -18,7 +18,7 @@ import axios from 'axios';
 
 import DropDown from './dropdown.jsx';
 import SearchBox from './searchbox.jsx'
-import PriceAccordion from './price_accordion.jsx';
+// import PriceAccordion from './price_accordion.jsx';
 
 const StoreFilter = () => {
     /* ===================================================== */
@@ -32,7 +32,7 @@ const StoreFilter = () => {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setfilteredProducts] = useState([])
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedProducts, setSelectedProducts] = useState([]);
+    const [selectedProductIds, setSelectedProductIds] = useState([]);
 
     const get_stores = () => {
         axios.post(API_URL + 'get-stores/')
@@ -80,7 +80,6 @@ const StoreFilter = () => {
     // EventHandler for filter change
     const handleSearchChange = (newValue) => {
         setSearchTerm(newValue)
-        console.log("Search term in parent:", newValue);
     }
 
     // EventHandler for filter change
@@ -100,17 +99,22 @@ const StoreFilter = () => {
         setStoreNames(selectedStoreNames);
     }
 
-    const toggleSelectProduct = (product) => {
-        const selected = selectedProducts.find(p => p.id == product.id)
+    const toggleSelectProduct = (productId) => {
+        setSelectedProductIds(prev => {
+            const isSelected = prev.includes(productId);
 
-        if (selected) {
-            setSelectedProducts(prev => prev.filter(p => p.id !== product.id))
-        }  else if (selectedProducts.length < 2) {
-            setSelectedProducts(prev => [...prev, product]);
-        } else {
-            alert("You can only compare 2 products at a time!");
-        }
-    }
+            if (isSelected) {
+                return prev.filter(id => id !== productId);
+            }
+
+            if (prev.length >= 2) {
+                alert("You can only compare 2 products at a time");
+                return prev;
+            }
+
+            return [...prev, productId];
+        });
+    };
 
     useEffect(() => {
         get_stores();
@@ -123,7 +127,7 @@ const StoreFilter = () => {
         }
         else {
             setProducts([]);
-            setSelectedProducts([])
+            setSelectedProductIds([])
         }
     }, [storeNames]);
 
@@ -149,11 +153,12 @@ const StoreFilter = () => {
 
             <h2>Comparison</h2>
 
-            {selectedProducts.length > 0 && (
+            {/* Display comparison panel only if there are comparisons in the list */}
+            {selectedProductIds.length > 0 && (
                 <div className="comparison-panel">
                     <h3>Compare Products</h3>
                     <div className="comparison-items">
-                        {selectedProducts.map((product) => (
+                        {selectedProductIds.map((product) => (
                             <div key={product.id} className="comparison-card">
                                 <h4>{product.product_name}</h4>
                                 <img src={product.img_url} alt="product-img" />
@@ -162,7 +167,7 @@ const StoreFilter = () => {
                             </div>
                         ))}
                     </div>
-                    <button onClick={() => setSelectedProducts([])}>Clear Comparison</button>
+                    <button onClick={() => setSelectedProductIds([])}>Clear Comparison</button>
                 </div>
             )}
 
@@ -173,7 +178,7 @@ const StoreFilter = () => {
                         key={product.id} 
                         onClick={() => toggleSelectProduct(product)} 
                         className={
-                            `product-card ${selectedProducts.find(p => p.id === product.id) ? 'selected' : ''}`
+                            `product-card ${selectedProductIds.find(p => p.id === product.id) ? 'selected' : ''}`
                         }
                     >
                         <img src={product.img_url} alt="product-img" />
@@ -192,4 +197,3 @@ const StoreFilter = () => {
 };
 
 export default StoreFilter;
-

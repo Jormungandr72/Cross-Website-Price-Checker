@@ -1,28 +1,11 @@
-import React from "react";
-import axios from 'axios';
-import { useEffect, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
-const PriceChart = () => {
+import { debugLog } from '../../../debug'
+
+const PriceChart = ({ graphData }) => {
 
     const [data, setData] = useState([]);
-
-    const getData = async () => {
-        /* ===================================================== */
-        /* CHANGE WHEN MOVING TO EC2 | CHANGE WHEN MOVING TO EC2 */
-        /* ===================================================== */
-
-        const url = 'http://localhost:8000/api/test/graph-data/';
-
-        try {
-            const response = await axios.post(url)
-            return response.data;
-        } catch (error) {
-            console.error("Error in getData:", url, error);
-            return null;
-        }
-        
-    }
 
     const truncateLabel = (label) => {
         if (label.length > 10) {
@@ -36,11 +19,11 @@ const PriceChart = () => {
     useEffect(() => {
         const fetchAndFormatSampleData = async () => {
             try {
-                const responseData = await getData();
+                const responseData = graphData;
 
                 /* Check if the responseData is empty or undefined */
                 if (!responseData || responseData.length === 0) {
-                    console.error("No data received from the API.");
+                    debugLog("No data recieved from the API.", [responseData], 'error')
                     return;
                 }
 
@@ -64,7 +47,10 @@ const PriceChart = () => {
     }, []);
 
     useEffect(() => {
+        console.log(data)
     }, [data])
+
+    if (!graphData || graphData.length == 0) return <div>Loading chart data...</div>;
 
     return (
         <div className="chart-container">

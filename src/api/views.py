@@ -24,6 +24,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from requests.exceptions import RequestException, Timeout, RequestException
 
+from script_standalones.ebay import Ebay
+
 # Use the django logger instead of print
 # This will return the name of the current logger, if none then create a new one
 logger = logging.getLogger(__name__)
@@ -40,7 +42,7 @@ headers = {
 }
 
 # Concatenate supabaseurl with supabase's rest api url
-REQUEST_URL = SUPABASE_URL + 'rest/v1/rpc'
+REQUEST_URL = SUPABASE_URL + '/rest/v1/rpc'
 
 # Keep for testing purposes
 @api_view(['GET'])
@@ -226,8 +228,6 @@ def insert_product_data(request):
     }
 
     response = requests.post(api_url, headers=headers, json=json_body, timeout=10)
-    print(f"Status code: ", response.status_code)
-    print("Response: ", response.text)
 
     return Response(data=response.json(), status=response.status_code)
 
@@ -240,8 +240,6 @@ def get_graph_data(request):
 
     try:
         response = requests.post(api_url, headers=headers, timeout=10)
-        print(f"Status code: ", response.status_code)
-        print("Response: ", response.text)
         response.raise_for_status()  # Catch all for HTTP errors
 
         if (response.status_code == 200):
@@ -296,13 +294,14 @@ def get_graph_data(request):
         )
 
 @api_view(['POST'])
-def refresh_supabase_cache(request):
-    """ refreshes the supabase cache by calling the refresh_cache function """
+def get_ebay_data(request):
+    """ fetch ebay API data """
+    ebay = Ebay()
+    response = ebay.getprice()
 
-    # create the api url to send the request to
-    api_url = f"{REQUEST_URL}/pg_rest_refresh"
+    if (not response):
+        print("empty response")
+        return Response(response)
+    else:
+        return Response(response)
 
-    response = requests.post(api_url, headers=headers, timeout=10)
-    print(f"Status code: ", response.status_code)
-    print("Response: ", response.text)
-    return Response(data=response.json(), status=response.status_code)

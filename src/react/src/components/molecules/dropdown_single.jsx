@@ -10,23 +10,28 @@ Change Log:
 Who  When           What
 JC   2025-04-04     created the dropdown component
 JC   2025-04-05     added functionality to handle multiple selections and display selected values
-JC   2025-04-06      added material UI and improved accessibility features
+JC   2025-04-06     added material UI and improved accessibility features 
 -------------------------------------------------------------------------------
 */
 
-import { FormControl, InputLabel, Select, MenuItem, ListItemText, Checkbox } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, ListItemText } from '@mui/material';
 
-const DropDown = ({ storeFilters, stores, handleFilterChange }) => {
+const DropDownSingle = ({ storeFilters, stores, handleFilterChange }) => {
+    if (!stores) {
+        console.error("Stores is undefined")
+        return <div>Error fetching stores</div>
+    }
+    
     return (
         <div>
             <FormControl sx={{ width: 600 }}>
-                <InputLabel id="store-select-label">Select Stores</InputLabel>
+                <InputLabel id="store-select-label">Select Store</InputLabel>
                 <Select
                     labelId="store-select-label"
-                    multiple
+                    multiple={false}
                     value={storeFilters}
-                    label="Select Stores"
-                    onChange={handleFilterChange}
+                    label="Select Store"
+                    onChange={handleFilterChange} 
                     MenuProps={{
                         PaperProps: {
                             style: {
@@ -36,14 +41,19 @@ const DropDown = ({ storeFilters, stores, handleFilterChange }) => {
                     }}
 
                     renderValue={(selected) => {
-                    return selected
-                        .map((id) => stores.find((store) => store.store_id === id)?.store_name)
-                        .join(", ");
+                        const selectedStore = stores.find((store) => store.store_id === selected);
+                        return selectedStore ? selectedStore.store_name : '';
                     }}
                 >
+                    {/* None Value Option */}
+                    <MenuItem value="">
+                        <ListItemText primary="- None -"/>
+                    </MenuItem>
+                    <MenuItem>
+                        <ListItemText primary="- All -"/>
+                    </MenuItem>
                     {stores.map((store) => (
                     <MenuItem key={store.store_id} value={store.store_id}>
-                        <Checkbox checked={storeFilters.indexOf(store.store_id) > -1} />
                         <ListItemText primary={store.store_name} />
                     </MenuItem>
                     ))}
@@ -53,4 +63,4 @@ const DropDown = ({ storeFilters, stores, handleFilterChange }) => {
     );
 }
 
-export default DropDown;
+export default DropDownSingle;
