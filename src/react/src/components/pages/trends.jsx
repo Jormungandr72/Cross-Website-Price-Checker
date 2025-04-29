@@ -6,6 +6,7 @@ import DropDownSingle from '../molecules/dropdown_single';
 
 // Custom logging logic
 import { debugLog } from '../../../debug'
+import { config } from '../../../config';
 
 const Trends = () => {
     const [selectedValue, setSelectedValue] = useState([]);
@@ -16,10 +17,7 @@ const Trends = () => {
     const [stores, setStores] = useState([])
     const [storeNames, setStoreNames] = useState([])
 
-    /* ===================================================== */
-    /* CHANGE WHEN MOVING TO EC2 | CHANGE WHEN MOVING TO EC2 */
-    /* ===================================================== */
-    const API_URL = 'http://localhost:8000/api/test/';
+    const API_URL = config.DEV ? 'http://localhost:8000/api/test/' : '/api/test/';
 
     const get_stores = () => {
         axios.post(API_URL + 'get-stores/')

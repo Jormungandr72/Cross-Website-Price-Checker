@@ -20,11 +20,11 @@ import DropDown from './dropdown.jsx';
 import SearchBox from './searchbox.jsx'
 // import PriceAccordion from './price_accordion.jsx';
 
+import { debugLog } from '../../../debug'
+import { config } from '../../../config'
+
 const StoreFilter = () => {
-    /* ===================================================== */
-    /* CHANGE WHEN MOVING TO EC2 | CHANGE WHEN MOVING TO EC2 */
-    /* ===================================================== */
-    const API_URL = 'http://localhost:8000/api/test/';
+    const API_URL = config.DEV ? 'http://localhost:8000/api/test/' : '/api/test/';
 
     const [stores, setStores] = useState([]);
     const [storeFilters, setStoreFilters] = useState([]);
@@ -40,14 +40,12 @@ const StoreFilter = () => {
                 setStores(data.data);
             }))
             .catch((error) => {
-                console.error(error);
+                debugLog('Error fetching data for get-stores/', error, 'error')
             })
     }
 
     const get_products = () => {
         const payload = { 'store_names': storeNames }
-
-        // console.log("Payload for get-products:", payload);
 
         try {
             axios.post(API_URL + 'get-products/', JSON.stringify(payload), {
@@ -56,24 +54,19 @@ const StoreFilter = () => {
                 }
             })
                 .then((response) => {
-                    // console.log("\nResponse data from get-products", response.data, '\n');
-
                     // Check if the response contains an error
                     if (response.data.error) {
-                        console.log("No products found for the selected store.");
+                        debugLog("No products found for the selected store", response.data.error, 'error')
                         setProducts([]);
                         return;
                     }
-
-                    // const productNames = response.data.map((product) => product.product_name);
                     setProducts(response.data);
-                    // console.log("Product names:", productNames);
                 })
                 .catch((error) => {
-                    console.error(error);
+                    debugLog('[Inner] Error fetching data for get-products/', error, 'error')
                 })
         } catch (err) {
-            console.error(err);
+            debugLog('[Outer] Error fetching data for get-products/', err, 'error')
         }
     }
 
@@ -86,15 +79,11 @@ const StoreFilter = () => {
     const handleFilterChange = (event) => {
         const selectedIds = event.target.value;
         setStoreFilters(selectedIds);
-        // console.log("Selected store IDs:", selectedIds);
         
         // get store names
         const selectedStoreNames = stores
             .filter(store => selectedIds.includes(store.store_id))
             .map(store => store.store_name);
-
-        // console.log("Selected store IDs:", selectedIds);
-        // console.log("Selected store names:", selectedStoreNames);
 
         setStoreNames(selectedStoreNames);
     }
