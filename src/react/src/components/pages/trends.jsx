@@ -27,7 +27,7 @@ const Trends = () => {
                 setStores(data.data);
             }))
             .catch((error) => {
-                console.error(error);
+                debugLog('Error while fetching get-stores/ for axios: ', error, 'error')
             })
     }
 
@@ -37,7 +37,7 @@ const Trends = () => {
                 setGraphData(data.data);
             }))
             .catch((error) => {
-                debugLog('Error while fetching graph data for axios: ', error, 'error')
+                debugLog('Error while fetching graph-data/ for axios: ', error, 'error')
             })
     }
 
@@ -47,7 +47,7 @@ const Trends = () => {
         if (option === 'all') {
             setFilteredGraphData(data);
         } else {
-            console.log("Data: ", data, "Option: ", option)
+            debugLog(`Data | Options:${option}`, data)
             const filtered = data.filter(item => item.category === option);
             setFilteredGraphData(filtered);
         }

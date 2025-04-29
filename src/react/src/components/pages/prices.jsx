@@ -21,6 +21,8 @@ const Prices = () => {
     return (
         <div>
             <h2>My Prices</h2>
+            <hr/>
+            <div style={{padding: "10px"}}></div> {/* TODO MOVE THIS INLINE STYLING */}
             <p>
                 In the My Prices Tab, users can lock in up to 10 items they want to monitor for price changes. 
                 PriceScout will continuously track these items, alerting users to any significant price drops or increases. 
