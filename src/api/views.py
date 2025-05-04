@@ -305,3 +305,48 @@ def get_ebay_data(request):
     else:
         return Response(response)
 
+@api_view(['GET'])
+def get_serp_data(request):
+
+    # Macbook M3 Example
+    shopping_results = {
+        "position": 1,
+        "title": "Apple MacBook Air 13-inch Laptop M3 chip",
+        "product_link": "https://www.google.com/shopping/product/1893637109356385173?gl=us",
+        "product_id": "1893637109356385173",
+        "serpapi_product_api": "https://serpapi.com/search.json?engine=google_product&gl=us&google_domain=google.com&hl=en&product_id=1893637109356385173",
+        "immersive_product_page_token": "eyJlaSI6IkszY1RhTkNLRUx6X3B0UVBpOVdYb0FNIiwicHJvZHVjdGlkIjoiIiwiY2F0YWxvZ2lkIjoiMTg5MzYzNzEwOTM1NjM4NTE3MyIsImhlYWRsaW5lT2ZmZXJEb2NpZCI6IjE2MDkyNDI2ODQyNTM0MDQzODUzIiwiaW1hZ2VEb2NpZCI6Ijg4OTIyNDY4MjE4MTYzNjc5NiIsInJkcyI6IlBDXzMzNzY0NzEzOTAxMzIxOTI0NTZ8UFJPRF9QQ18zMzc2NDcxMzkwMTMyMTkyNDU2IiwicXVlcnkiOiJNYWNib29rK00zIiwiZ3BjaWQiOiIzMzc2NDcxMzkwMTMyMTkyNDU2IiwibWlkIjoiNTc2NDYyNzkwOTgyODI1NDkyIiwicHZ0IjoiaGciLCJ1dWxlIjpudWxsfQ==",
+        "serpapi_immersive_product_api": "https://serpapi.com/search.json?engine=google_immersive_product&page_token=eyJlaSI6IkszY1RhTkNLRUx6X3B0UVBpOVdYb0FNIiwicHJvZHVjdGlkIjoiIiwiY2F0YWxvZ2lkIjoiMTg5MzYzNzEwOTM1NjM4NTE3MyIsImhlYWRsaW5lT2ZmZXJEb2NpZCI6IjE2MDkyNDI2ODQyNTM0MDQzODUzIiwiaW1hZ2VEb2NpZCI6Ijg4OTIyNDY4MjE4MTYzNjc5NiIsInJkcyI6IlBDXzMzNzY0NzEzOTAxMzIxOTI0NTZ8UFJPRF9QQ18zMzc2NDcxMzkwMTMyMTkyNDU2IiwicXVlcnkiOiJNYWNib29rK00zIiwiZ3BjaWQiOiIzMzc2NDcxMzkwMTMyMTkyNDU2IiwibWlkIjoiNTc2NDYyNzkwOTgyODI1NDkyIiwicHZ0IjoiaGciLCJ1dWxlIjpudWxsfQ%3D%3D",
+        "source": "Micro Center",
+        "source_icon": "https://serpapi.com/searches/6813772aa57b439a15c7c439/images/76efabd3c57ab8e6af3c3b0ca17d9462c85e17ad63f0ee78f2debda3dc8e56ee.png",
+        "multiple_sources": True,
+        "price": "$799.99",
+        "extracted_price": 799.99,
+        "rating": 4.8,
+        "reviews": 7200,
+        "snippet": "Performs well (728 user reviews)",
+        "extensions":
+        [
+            "Nearby, 5 mi"
+        ]
+        ,
+        "thumbnail": "https://serpapi.com/searches/6813772aa57b439a15c7c439/images/76efabd3c57ab8e6af3c3b0ca17d94620124e30d0c13b1e8dc19df8809356cac.webp",
+        "thumbnails":
+        [
+            "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQ1DPRBZGwj6N8whUhCWDFr8u0TDxcZiuc8SpLA2zGFhehI8rBm10s6EH5m2YLx42mMa-i_9aU8q0ODznpJ-wUE3IN7IS4v"
+        ]
+        ,
+        "serpapi_thumbnails":
+        [
+            "https://serpapi.com/images/url/BoeMJHicDcnbCoIwAADQL_Ka2RQitKkZZheTyJewKW7B5nQzrQ_p3_qbOq_n-8FScuFqWs1Q_-KyrhR5Z7raCFlKglTUUk3glnPCmlW3_J_rpZUToaMBDye_iMaHnYIR53h9gWEPBv0MJ1SQAYGMJ575jkJc4xj0PjV0YQebOTWvyWSZdFcq5OaUOej0PXwzvlXGPJjF6SLOrOcPZz00KQ"
+        ]
+    }
+
+    return Response(
+        {
+            "store": shopping_results.get("source"),
+            "name": shopping_results.get("title"),
+            "price": shopping_results.get("price"),
+            "image": shopping_results.get("thumbnails")
+        }
+    )
