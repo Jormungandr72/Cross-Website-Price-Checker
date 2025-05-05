@@ -1,0 +1,33 @@
+CPT-200 Meeting 4-1: The Macro
+
+Meeting Objectives:
+- Zoom out and see what we *need* to get done
+- Discuss the presentation
+  - What could we have done better?
+  - How are we going to move forward?
+- Make a list of tasks to focus
+- Start work on remaining tasks
+
+Attendance:
+- Patrick
+- Steven
+- Justin
+- 
+-
+
+Notes:
+- Priorities
+  - Data Visualization
+  - Get actual data
+- Tasks
+  - Login
+  - Generate Nexar token manually
+- Data Visuals
+  - GraphSQL?
+  - React-based?
+- Documents
+  - Change Log
+  - Lessons Learned
+- Sharing
+  - Screenshots (of GUI) folder
+  - Presentation

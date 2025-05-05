@@ -1,0 +1,1 @@
+The trends tab shows the progression of an item’s price over time. This includes our data visualization.

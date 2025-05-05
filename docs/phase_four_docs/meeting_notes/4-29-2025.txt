@@ -1,0 +1,20 @@
+CPT Meeting 4-3: What's Left?
+
+Meeting Objectives:
+- Figure out what else needs to be done for phase 4
+- Figure out what else needs to be done for the class
+- Work on the remainder of the project
+
+Attendance:
+- Patrick
+- Justin
+- Steven
+-
+-
+
+Notes:
+- Not switching data source
+  - Requires some DB changes
+- docs/screenshots/[...] needs to be done
+- Did troubleshooting together
+- Ask professor about presentation before monday

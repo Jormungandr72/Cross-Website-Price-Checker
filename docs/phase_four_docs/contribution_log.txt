@@ -1,0 +1,21 @@
+Patrick
+- Held meetings
+- Wrote meeting notes
+- Brought tasks to team's attention
+- Contributed to slides
+- Contributred to lessons learned
+
+Steven
+- Created data diagrams
+- Worked with Justin on database changes
+- Contributed to slides
+- Contributred to lessons learned
+
+Justin
+- Finished data retrieval script
+- Added finishing features
+- Contributed to slides
+- Contributred to lessons learned
+
+Tanas
+-

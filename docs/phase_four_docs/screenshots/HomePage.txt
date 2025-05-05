@@ -1,0 +1,1 @@
+This is our home page that contains our mission statement. The user is directed here when they first enter the site.

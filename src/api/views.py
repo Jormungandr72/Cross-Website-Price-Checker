@@ -45,7 +45,7 @@ SUPABASE_ANON_KEY = settings.SUPABASE_KEY
 # GLOBALLY Define headers for the Supabase RPC API requests
 headers = {
     "apikey": SUPABASE_ANON_KEY,
-    "Authorization": f"Bearer {SUPABASE_ANON_KEY}",
+    # "Authorization": f"Bearer {SUPABASE_ANON_KEY}",
     "Content-Type": "application/json"
 }
 
