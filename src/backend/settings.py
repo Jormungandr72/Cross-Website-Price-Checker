@@ -27,8 +27,8 @@ from dotenv import load_dotenv
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Load environment variables from env file at src
-env_path = os.path.join(BASE_DIR, 'shared-config', '.env')
-load_dotenv(env_path, override=True)
+env_path = os.path.join(BASE_DIR, 'shared-config/.env')
+load_dotenv(env_path)
 
 # Access these in other files with django.conf.settings
 SUPABASE_URL = os.getenv('SUPABASE_URL')
@@ -42,7 +42,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # React build folder
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'react', 'build', 'static'),
+    os.path.join(BASE_DIR, 'react', 'dist', 'assets'),
 ]
 
 # Quick-start development settings - unsuitable for production
@@ -55,6 +55,11 @@ SECRET_KEY = 'django-insecure-9563jsp^80$aavfjy@bg(dcam)4kf+h4!%y-vyzq+nn5%8-w(!
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+
+CORS_ALLOWED_ORIGINS = [
+    # "http://localhost:3000", # CRA development server port
+    "http://localhost:5173", # Vite development server port
+]
 
 # Application definition
 
@@ -86,7 +91,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR + '\\react', 'build')],
+        'DIRS': [os.path.join(BASE_DIR + '/react', 'dist')], # nginx serves this now
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

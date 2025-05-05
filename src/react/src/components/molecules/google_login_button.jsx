@@ -31,7 +31,7 @@ const GoogleLoginButton = () => {
         navigate("/prices");
     };
 
-    const clientId = process.env.REACT_APP_CLIENT_ID;
+    const clientId = import.meta.env.VITE_CLIENT_ID;
 
     if (!clientId) {
         console.error("Google client ID is not set in environment variables.");
@@ -42,7 +42,16 @@ const GoogleLoginButton = () => {
     else {
         return (
             <GoogleOAuthProvider clientId={clientId}>
-                <GoogleLogin onSuccess={handleSuccess} onError={handleFaliure}/>
+                <GoogleLogin
+                onSuccess={handleSuccess}
+                onError={handleFaliure}
+                shape='pill'
+                width='300px'
+                height='60px'
+                style={{
+                    margin: 'auto'
+                }}
+            />
             </GoogleOAuthProvider>
         );
     }
