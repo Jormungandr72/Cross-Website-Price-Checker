@@ -1,0 +1,27 @@
+CPT-200 Meeting 4-2: Phase 4 Productivity: Switching Roles?
+
+Meeting Objectives:
+- Potentially shift roles
+  - Patrick has been doing coding, struggling
+  - Switch to Patrick doing slides
+  - Justin on NexarClient.py
+  - Steven assisting
+- Remembering what Phase 4 should look like
+  - Wrapping up
+  - Few changes
+  
+Attendance:
+- Patrick
+- Steven
+- Justin
+- 
+- 
+
+Notes:
+- Steven is good to do anything that needs doing
+- Justin running ~15 minutes late
+- Need to work on three docs
+  - presentation
+  - changelog.txt?
+  - lessons_learned.txt
+- Change existing docs to reflect audience changes
