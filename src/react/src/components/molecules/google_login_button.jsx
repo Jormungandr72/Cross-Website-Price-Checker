@@ -41,18 +41,21 @@ const GoogleLoginButton = () => {
     }
     else {
         return (
+            <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                minHeight: '100vh'
+            }}>
             <GoogleOAuthProvider clientId={clientId}>
                 <GoogleLogin
-                onSuccess={handleSuccess}
-                onError={handleFaliure}
-                shape='pill'
-                width='300px'
-                height='60px'
-                style={{
-                    margin: 'auto'
-                }}
-            />
+                    onSuccess={handleSuccess}
+                    onError={handleFaliure}
+                    shape='pill'
+                    width='300px'
+                    height='60px'
+                />
             </GoogleOAuthProvider>
+        </div>
         );
     }
 }

@@ -52,7 +52,7 @@ const PriceChart = ({ graphData }) => {
         <div className="chart-container">
             <ResponsiveContainer width={'100%'} aspect={1.6}>
                 <LineChart
-                    data={data.slice(0, 5)}
+                    data={data.slice(0, 10)}
                     margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                 >
                     <CartesianGrid 
@@ -66,8 +66,8 @@ const PriceChart = ({ graphData }) => {
                         label={
                             {
                                 value: 'Name',
-                                position: 'insideMiddle',
-                                offset: 0,
+                                position: 'insideBottom',
+                                offset: -10,
                                 fill: '#fff'
                             }
                         }

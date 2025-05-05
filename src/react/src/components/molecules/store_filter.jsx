@@ -38,6 +38,8 @@ const StoreFilter = () => {
     const [tableData, setTableData] = useState([ { title: "-", price: 0, source: "Select Product", link: "-" } ]);
     const [filteredTableData, setFilteredTableData] = useState([]);
 
+    const [loading, setLoading] = useState(false);
+
     const sample_stores = [
         { store: "Best Buy" },
         { store: "Walmart" },
@@ -48,50 +50,6 @@ const StoreFilter = () => {
         { store: "Staples" },
         { store: "Walmart" },
     ];
-
-    // const [stores, setStores] = useState([]);
-    // const [storeFilters, setStoreFilters] = useState([]);
-    // const [storeNames, setStoreNames] = useState([]);
-    // const [products, setProducts] = useState([]);
-    // const [filteredProducts, setfilteredProducts] = useState([])
-    // const [searchTerm, setSearchTerm] = useState('');
-    // const [selectedProductIds, setSelectedProductIds] = useState([]);
-
-    // const get_stores = () => {
-    //     axios.post(API_URL + 'get-stores/')
-    //         .then((data => {
-    //             setStores(data.data);
-    //         }))
-    //         .catch((error) => {
-    //             debugLog('Error fetching data for get-stores/', error, 'error')
-    //         })
-    // }
-
-    // const get_products = () => {
-    //     const payload = { 'store_names': storeNames }
-
-    //     try {
-    //         axios.post(API_URL + 'get-products/', JSON.stringify(payload), {
-    //             headers: {
-    //                 "Content-Type": "application/json; charset=UTF-8"
-    //             }
-    //         })
-    //             .then((response) => {
-    //                 // Check if the response contains an error
-    //                 if (response.data.error) {
-    //                     debugLog("No products found for the selected store", response.data.error, 'error')
-    //                     setProducts([]);
-    //                     return;
-    //                 }
-    //                 setProducts(response.data);
-    //             })
-    //             .catch((error) => {
-    //                 debugLog('[Inner] Error fetching data for get-products/', error, 'error')
-    //             })
-    //     } catch (err) {
-    //         debugLog('[Outer] Error fetching data for get-products/', err, 'error')
-    //     }
-    // }
 
     // EventHandler for filter change
     const handleSearchChange = (newValue) => {
@@ -105,31 +63,68 @@ const StoreFilter = () => {
         }
     };
 
-    const handleProductSearchChange = (newValue) => {
-        if (newValue.target.textContent === '') {
+    const handleProductSearchChange = (newValue, event) => {
+        // const searchQuery = newValue.target.textContent || event.target.value;
+        const searchQuery = (newValue.target.textContent || event.target.value) || '';
+
+        console.log("Search Query: ", searchQuery);
+
+        if (searchQuery === '') {
             setTableData([ { title: "-", price: 0, source: "Select Product", link: "-" } ]);
             return;
         }
 
-        // const searchTerm = newValue.target.textContent;
-        // const filtered = stores.filter(store => store.includes(searchTerm));
+        setProductsFilter(searchQuery);
+        setLoading(true);
 
-        setProductsFilter(newValue.target.textContent);
+        if (searchQuery.trim() !== '') {
+            setProductsFilter(searchQuery);
 
-        // get realtime data
-        axios.post(
-            'http://localhost:8000/api/serp/sample/',
-            {
-                'query': newValue.target.textContent
-            })
-            .then((response) => {
-                console.log(response.data);
-                setTableData(response.data);
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+            axios.post('http://localhost:8000/api/serp/sample/', { query: searchQuery.trim() })
+                .then((response) => {
+                    console.log(response.data);
+                    setTableData(response.data);
+                    setFilteredTableData(response.data);
+                })
+                .catch((err) => {
+                    console.error(err);
+                })
+                .finally(() => {
+                    setLoading(false);
+                })
+        }
     }
+
+    const handleKeyDown = (event) => {
+        // Check if the 'Enter' key is pressed
+        if (event.key === 'Enter') {
+            const query = event.target.value;
+
+            console.log("Query: ", query)
+
+            if (query.trim() === '') {
+                setTableData([ { title: "-", price: 0, source: "Select Product", link: "-" } ]);
+                return;
+            }
+
+            // Call the search change function when enter is pressed
+            setProductsFilter(query);
+            setLoading(true);
+
+            axios.post('http://localhost:8000/api/serp/sample/', { query: query.trim() })
+                .then((response) => {
+                    console.log(response.data);
+                    setTableData(response.data);
+                    setFilteredTableData(response.data); // Reset filtered data
+                })
+                .catch((err) => {
+                    console.error(err);
+                })
+                .finally(() => {
+                    setLoading(false);
+                })
+        }
+    };
 
     // useEffect(() => {
     //     console.table(filteredStores);
@@ -139,107 +134,48 @@ const StoreFilter = () => {
         console.log("Tabkle Data: ", tableData);
     }, [filteredTableData])
 
-    // EventHandler for filter change
-    // const handleFilterChange = (event) => {
-    //     const selectedIds = event.target.value;
-    //     setStoreFilters(selectedIds);
-        
-    //     // get store names
-    //     const selectedStoreNames = stores
-    //         .filter(store => selectedIds.includes(store.store_id))
-    //         .map(store => store.store_name);
-
-    //     setStoreNames(selectedStoreNames);
-    // }
-
-    // const toggleSelectProduct = (productId) => {
-    //     setSelectedProductIds(prev => {
-    //         const isSelected = prev.includes(productId);
-
-    //         if (isSelected) {
-    //             return prev.filter(id => id !== productId);
-    //         }
-
-    //         if (prev.length >= 2) {
-    //             alert("You can only compare 2 products at a time");
-    //             return prev;
-    //         }
-
-    //         return [...prev, productId];
-    //     });
-    // };
-
     useEffect(() => {
-        // get_stores();
-
         setProducts(["Laptop", "Iphone", "Xbox"])
 
-        // const get_stores = () => {
-        //     axios.get('http://localhost:8000/api/serp/sample/')
-        //         .then((response) => {
-        //             const merged = [
-        //                 ...sample_stores.map(store => ( store.store )),
-        //                 response.data.store
-        //             ];
-        //             setStores(merged);
-        //         })
-        //         .catch((error) => {
-        //             debugLog(error, [], 'error');
-        //         })
-        // };
-
+        const uniqueStores = Array.from(new Set(filteredTableData.map(item => item.source)))
         const get_stores = () => {
-            setStores(sample_stores.map(store => store.store ));
+            // setStores(sample_stores.map(store => store.store ));
+            setStores(uniqueStores);
         }
 
         get_stores();
 
         return;
-    }, []);
+    }, [filteredTableData]);
 
-    // Triggers once every component mount
-    // useEffect(() => {
-    //     if (storeNames.length > 0) {
-    //         get_products();
-    //     }
-    //     else {
-    //         setProducts([]);
-    //         setSelectedProductIds([])
-    //     }
-    // }, [storeNames]);
-
-    // useEffect(() => {
-    //     const delayDebounce = setTimeout(() => {
-    //         const filtered = products.filter((product) => {
-    //             return product.product_name.toLowerCase().includes(searchTerm.toLowerCase())
-    //         });
-    //         setfilteredProducts(filtered)
-    //     }, 450);
-
-    //     return () => clearTimeout(delayDebounce);
-    // }, [searchTerm, products]);
-    
     return (
         <div>
+            {/* PRODUCTS */}
             <div>
                 <h2>Select Products</h2>
                 <Autocomplete
+                    freeSolo
                     options={products}
-                    getOptionLabel={
-                        (option) => {
-                            if (!option) return '';
-                            return `${option}`
-                        }
-                    }
-                    renderInput={(params) => <TextField {...params} label="Select a product" variant="outlined" />}
+                    // getOptionLabel={
+                    //     (option) => {
+                    //         if (!option) return '';
+                    //         return `${option}`
+                    //     }
+                    // }
+                    getOptionLabel={(option) => option}
+                    renderInput={(params) => <TextField {...params} label="Select a product" variant="outlined" onKeyDown={handleKeyDown} />}
                     onChange={handleProductSearchChange}
-                    isOptionEqualToValue={(option, value) => option == value}
+                    onInputChange={handleProductSearchChange}
+                    // isOptionEqualToValue={(option, value) => option == value}
 
                     sx={{width: "500px", margin: "auto"}}
                 />
             </div>
-            <div className='product-select'>
+
+            {/* STORES */}
+            <div className='stores-select'>
                 <Autocomplete
+                    disabled={tableData[0].source === "Select Product"}
                     options={stores}
                     getOptionLabel={
                         (option) => {
@@ -254,38 +190,42 @@ const StoreFilter = () => {
                     sx={{width: "500px", margin: "auto"}}
                 />
             </div>
-            
-            {/* <div className='product-display'>
-                <h2>Products</h2>
-                <div className='product-grid'>
-                    {products.map((product, index) => (
-                        <div key={product.id} className='product-card'>
-                            <h3>Name: {product}</h3>
-                        </div>
-                    ))}
-                </div>
-            </div> */}
 
             <div>
-                <TableContainer component={Paper}>
+                <TableContainer
+                    component={Paper}
+                    sx={{
+                        backgroundColor: '#424242',
+                        borderRadius: 2,
+                        boxShadow: 3,
+                        overflow: 'hidden'
+                    }}
+                >
                     <Table sx={{ minWidth: 650 }} aria-label="store table">
                         <TableHead>
                         <TableRow>
-                        <TableCell>Number</TableCell>
-                        <TableCell>Store</TableCell>
-                        <TableCell>Product</TableCell>
-                        <TableCell>Price ($)</TableCell>
+                        <TableCell sx={{ fontWeight: 'bold' }}>Number</TableCell>
+                        <TableCell sx={{ fontWeight: 'bold' }}>Store</TableCell>
+                        <TableCell sx={{ fontWeight: 'bold' }}>Product</TableCell>
+                        <TableCell sx={{ fontWeight: 'bold' }}>Price ($)</TableCell>
                         </TableRow>
                         </TableHead>
                         <TableBody>
-                            {filteredTableData.map((row, index) => (
+                            {loading ? (
+                                <TableRow>
+                                    <TableCell>
+                                        <p>loading...</p>
+                                    </TableCell>
+                                </TableRow>
+                            ) : (
+                            filteredTableData.map((row, index) => (
                                 <TableRow key={index}>
                                     <TableCell>{index + 1}</TableCell>
                                     <TableCell>{row.source}</TableCell>
                                     <TableCell>{row.title}</TableCell>
                                     <TableCell>{row.price}</TableCell>
                                 </TableRow>
-                            ))}
+                            )))}
                         </TableBody>
                     </Table>
                 </TableContainer>

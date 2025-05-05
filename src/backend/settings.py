@@ -28,11 +28,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Load environment variables from env file at src
 env_path = os.path.join(BASE_DIR, 'shared-config/.env')
-load_dotenv(env_path)
+load_dotenv(env_path, override=True)
 
 # Access these in other files with django.conf.settings
 SUPABASE_URL = os.getenv('SUPABASE_URL')
 SUPABASE_KEY = os.getenv('SUPABASE_KEY')
+
+SERP_API_KEY = os.getenv('SERP_API')
 
 # Static files settings
 STATIC_URL = '/static/'

@@ -41,6 +41,8 @@ logger = logging.getLogger(__name__)
 SUPABASE_URL = settings.SUPABASE_URL
 SUPABASE_ANON_KEY = settings.SUPABASE_KEY
 
+SERP_API_KEY = settings.SERP_API_KEY
+
 # GLOBALLY Define headers for the Supabase RPC API requests
 # GLOBALLY Define headers for the Supabase RPC API requests
 headers = {
@@ -397,13 +399,13 @@ def get_google_products(request):
 
     if not query_name: return Response("Query name is empty")
     params = {
-        "api_key": "bdf065e3f4dbf68c669a348446b3aacdec6a405146b47aee44a0f11c363141cc",
+        "api_key": SERP_API_KEY,
         "engine": "google_shopping",
         "google_domain": "google.com",
         "q": "Coffee"
     }
 
-    client = serpapi.Client(api_key="bdf065e3f4dbf68c669a348446b3aacdec6a405146b47aee44a0f11c363141cc")
+    client = serpapi.Client(api_key=SERP_API_KEY)
     shopping_results = client.search({
         'engine': 'google_shopping',
         'q': query_name,
