@@ -24,7 +24,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from requests.exceptions import RequestException, Timeout, RequestException
 
-from script_standalones.ebay import Ebay
+import serpapi
 
 # Use the django logger instead of print
 # This will return the name of the current logger, if none then create a new one
@@ -293,17 +293,17 @@ def get_graph_data(request):
             status=status.HTTP_502_BAD_GATEWAY
         )
 
-@api_view(['POST'])
-def get_ebay_data(request):
-    """ fetch ebay API data """
-    ebay = Ebay()
-    response = ebay.getprice()
+# @api_view(['POST'])
+# def get_ebay_data(request):
+#     """ fetch ebay API data """
+#     ebay = Ebay()
+#     response = ebay.getprice()
 
-    if (not response):
-        print("empty response")
-        return Response(response)
-    else:
-        return Response(response)
+#     if (not response):
+#         print("empty response")
+#         return Response(response)
+#     else:
+#         return Response(response)
 
 @api_view(['GET'])
 def get_serp_data(request):
@@ -350,3 +350,39 @@ def get_serp_data(request):
             "image": shopping_results.get("thumbnails")
         }
     )
+
+@api_view(['POST'])
+def get_google_products(request):
+    query_name = request.data.get('query')
+
+    print(query_name)
+
+    if not query_name: return Response("Query name is empty")
+    params = {
+        "api_key": "bdf065e3f4dbf68c669a348446b3aacdec6a405146b47aee44a0f11c363141cc",
+        "engine": "google_shopping",
+        "google_domain": "google.com",
+        "q": "Coffee"
+    }
+
+    client = serpapi.Client(api_key="bdf065e3f4dbf68c669a348446b3aacdec6a405146b47aee44a0f11c363141cc")
+    shopping_results = client.search({
+        'engine': 'google_shopping',
+        'q': query_name,
+        "num": 10
+    })
+
+    filtered_results = []
+
+    if "shopping_results" in shopping_results:
+        for item in shopping_results["shopping_results"][:10]:
+            filtered_results.append({
+                "title": item.get('title'),
+                "price": item.get('price'),
+                "source": item.get('source'),
+                "link": item.get('link')
+            })
+    else:
+        print("No shopping results found.")
+
+    return Response(filtered_results)

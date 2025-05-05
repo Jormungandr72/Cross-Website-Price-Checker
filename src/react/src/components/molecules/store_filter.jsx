@@ -21,6 +21,7 @@ import SearchBox from './searchbox.jsx'
 import PriceAccordion from './price_accordion.jsx';
 import { List, ListItem, ListItemText, Typography } from '@mui/material';
 import { Autocomplete, TextField } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Avatar } from '@mui/material';
 
 import { debugLog } from '../../../debug'
 import { DEBUG } from '../../../config'
@@ -31,28 +32,31 @@ const StoreFilter = () => {
     const [stores, setStores] = useState([]);
     const [filteredStores, setFilteredStores] = useState([]);
 
-    // const sample_stores = [
-    //     { "store": "Newegg" },
-    //     { "store": "Amazon" },
-    //     { "store": "Best Buy" },
-    //     { "store": "B&H Photo Video" },
-    //     { "store": "TigerDirect" },
-    //     { "store": "Central Computer" },
-    //     { "store": "OutletPC" },
-    //     { "store": "SuperBiiz" },
-    //     { "store": "Directron" }
-    // ];
+    const [products, setProducts] = useState([]);
+    const [productsFilter, setProductsFilter] = useState([])
+
+    const [tableData, setTableData] = useState([ { title: "-", price: 0, source: "Select Product", link: "-" } ]);
+    const [filteredTableData, setFilteredTableData] = useState([]);
 
     const sample_stores = [
-        { store: "Newegg", name: "Desktop", price: 1800, image: "https://example.com/desktop.jpg" },
-        { store: "Amazon", name: "Laptop", price: 1500, image: "https://example.com/laptop.jpg" },
-        { store: "Best Buy", name: "Headphones", price: 150, image: "https://example.com/headphones.jpg" },
-        { store: "B&H Photo Video", name: "Macbook", price: 2400, image: "https://example.com/macbook.jpg" },
-        { store: "TigerDirect", name: "Monitor", price: 300, image: "https://example.com/monitor.jpg" },
-        { store: "Central Computer", name: "Desktop", price: 1800, image: "https://example.com/desktop.jpg" },
-        { store: "OutletPC", name: "Macbook", price: 2400, image: "https://example.com/macbook.jpg" },
-        { store: "SuperBiiz", name: "Laptop", price: 1500, image: "https://example.com/laptop.jpg" },
-        { store: "Directron", name: "Headphones", price: 150, image: "https://example.com/headphones.jpg" }
+        { store: "Best Buy" },
+        { store: "Walmart" },
+        { store: "Microcenter" },
+    ];
+
+    const sample_product_data = [
+        { title: "best", price: 10, source: "https://google.com", link: "wwwww" },
+        { title: "www", price: 10, source: "https://google.com", link: "wwwww" },
+        { title: "besssst", price: 10, source: "https://google.com", link: "wwwww" },
+        { title: "dads", price: 100, source: "https://google.com", link: "wwwww" },
+        { title: "wadwas", price: 10, source: "https://google.com", link: "wwwww" },
+        { title: "wadwas", price: 10, source: "https://google.com", link: "wwwww" },
+        { title: "wadwas", price: 10, source: "https://google.com", link: "wwwww" },
+        { title: "wadwas", price: 10, source: "https://google.com", link: "wwwww" },
+        { title: "wadwas", price: 10, source: "https://google.com", link: "wwwww" },
+        { title: "wadwas", price: 10, source: "https://google.com", link: "wwwww" },
+        { title: "wadwas", price: 10, source: "https://google.com", link: "wwwww" },
+        { title: "wadwas", price: 10, source: "https://google.com", link: "wwwww" },
     ]
 
     // const [stores, setStores] = useState([]);
@@ -100,22 +104,46 @@ const StoreFilter = () => {
     // }
 
     // EventHandler for filter change
-    
     const handleSearchChange = (newValue) => {
-        // setSearchTerm(newValue);
-        console.log(typeof newValue);
-        const searchTerm = newValue.toLowerCase();
-        const filtered = stores.filter(store => {
-            // console.log("Type of store in stores is: ", typeof store, " and store == ", store);
-            return store.toLowerCase().includes(searchTerm);
-        });
+        const searchTerm = newValue.target.textContent;
+        const filtered = tableData.filter(store => store.includes(searchTerm));
 
-        setFilteredStores(filtered);
+        // setFilteredStores(filtered);
     };
 
+    const handleProductSearchChange = (newValue) => {
+        if (newValue.target.textContent === '') {
+            setTableData([ { title: "-", price: 0, source: "Select Product", link: "-" } ]);
+            return;
+        }
+
+        const searchTerm = newValue.target.textContent;
+        const filtered = stores.filter(store => store.includes(searchTerm));
+
+        setProductsFilter(newValue.target.textContent);
+
+        // get realtime data
+        axios.post(
+            'http://localhost:8000/api/serp/sample/',
+            {
+                'query': newValue.target.textContent
+            })
+            .then((response) => {
+                console.log(response.data);
+                setTableData(response.data);
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    // useEffect(() => {
+    //     console.table(filteredStores);
+    // }, [filteredStores]);
+
     useEffect(() => {
-        console.table(filteredStores);
-    }, [filteredStores]);
+        console.log("Tabkle Data: ", tableData);
+    }, [tableData])
 
     // EventHandler for filter change
     // const handleFilterChange = (event) => {
@@ -150,31 +178,27 @@ const StoreFilter = () => {
     useEffect(() => {
         // get_stores();
 
-        const serp = () => {
-            axios.get('http://localhost:8000/api/serp/sample/')
-                .then((response) => {
-                    // const data = {
-                    //     store: response.data.store,
-                    //     name: response.data.name,
-                    //     price: response.data.price,
-                    //     img: response.data.image[0]
-                    // }
-                    
-                    // console.table(data);
+        setProducts(["Laptop", "Iphone", "Xbox"])
 
-                    const merged = [
-                        ...sample_stores.map(store => ( store.store )),
-                        response.data.store
-                    ];
+        // const get_stores = () => {
+        //     axios.get('http://localhost:8000/api/serp/sample/')
+        //         .then((response) => {
+        //             const merged = [
+        //                 ...sample_stores.map(store => ( store.store )),
+        //                 response.data.store
+        //             ];
+        //             setStores(merged);
+        //         })
+        //         .catch((error) => {
+        //             debugLog(error, [], 'error');
+        //         })
+        // };
 
-                    setStores(merged);
-                })
-                .catch((error) => {
-                    debugLog(error, [], 'error');
-                })
-        };
+        const get_stores = () => {
+            setStores(sample_stores.map(store => store.store ));
+        }
 
-        serp();
+        get_stores();
 
         return;
     }, []);
@@ -204,15 +228,74 @@ const StoreFilter = () => {
     return (
         <div>
             <div>
+                <h2>Select Products</h2>
                 <Autocomplete
-                    options={stores}
-                    getOptionLabel={(option) => `${option.store} - ${option.name}`}
-                    renderInput={(params) => <TextField {...params} label="Select a Store" variant="outlined" />}
-                    onChange={handleSearchChange}
-                    isOptionEqualToValue={(option, value) => option.store === value.store && option.name === value.name}
-                    
+                    options={products}
+                    getOptionLabel={
+                        (option) => {
+                            if (!option) return '';
+                            return `${option}`
+                        }
+                    }
+                    renderInput={(params) => <TextField {...params} label="Select a product" variant="outlined" />}
+                    onChange={handleProductSearchChange}
+                    isOptionEqualToValue={(option, value) => option == value}
+
                     sx={{width: "500px", margin: "auto"}}
                 />
+            </div>
+            <div className='product-select'>
+                <Autocomplete
+                    multiple
+                    options={stores}
+                    getOptionLabel={
+                        (option) => {
+                            if (!option) return '';
+                            return `${option}`
+                        }
+                    }
+                    renderInput={(params) => <TextField {...params} label="Select Store(s)" variant="outlined" />}
+                    onChange={handleSearchChange}
+                    isOptionEqualToValue={(option, value) => option == value}
+
+                    sx={{width: "500px", margin: "auto"}}
+                />
+            </div>
+            
+            {/* <div className='product-display'>
+                <h2>Products</h2>
+                <div className='product-grid'>
+                    {products.map((product, index) => (
+                        <div key={product.id} className='product-card'>
+                            <h3>Name: {product}</h3>
+                        </div>
+                    ))}
+                </div>
+            </div> */}
+
+            <div>
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} aria-label="store table">
+                        <TableHead>
+                        <TableRow>
+                        <TableCell>Number</TableCell>
+                        <TableCell>Store</TableCell>
+                        <TableCell>Product</TableCell>
+                        <TableCell>Price ($)</TableCell>
+                        </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {tableData.map((row, index) => (
+                                <TableRow key={index}>
+                                    <TableCell>{index + 1}</TableCell>
+                                    <TableCell>{row.source}</TableCell>
+                                    <TableCell>{row.title}</TableCell>
+                                    <TableCell>{row.price}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </div>
 
             <div>
@@ -238,7 +321,7 @@ const StoreFilter = () => {
             </div>
 
             <div>
-                <h2>Products</h2>
+                {/* <h2>Products</h2> */}
                 {/*<ul className="product-list">
                     {filteredProducts.map((product) => (
                         <div
@@ -262,7 +345,7 @@ const StoreFilter = () => {
             </div>
 
             <div>
-                <h2>Comparison</h2>
+                {/* <h2>Comparison</h2> */}
 
                 {/* Display comparison panel only if there are comparisons in the list */}
                 {/* {selectedProductIds.length > 0 && (

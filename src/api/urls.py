@@ -20,8 +20,7 @@ from .views import get_stores
 from .views import get_products
 from .views import get_graph_data
 from .views import insert_product_data
-from .views import get_ebay_data
-from .views import get_serp_data
+from .views import get_google_products
 
 urlpatterns = [
     path('test-api/', test_api), # example of a simple API endpoint
@@ -29,6 +28,5 @@ urlpatterns = [
     path('test/get-products/', get_products),
     path('test/graph-data/', get_graph_data),
     path('test/insert-product-data/', insert_product_data),
-    path('test/ebay/', get_ebay_data),
-    path('serp/sample/', get_serp_data)
+    path('serp/sample/', get_google_products)
 ]
