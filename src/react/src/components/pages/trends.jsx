@@ -34,7 +34,9 @@ const Trends = () => {
     const get_graph_data = () => {
         axios.post(API_URL + 'graph-data/')
             .then((data => {
+                console.table(data)
                 setGraphData(data.data);
+                setFilteredGraphData(data.data);
             }))
             .catch((error) => {
                 debugLog('Error while fetching graph-data/ for axios: ', error, 'error')
@@ -42,13 +44,12 @@ const Trends = () => {
     }
 
     const filterGraphData = (data, option) => {
-        if (!data) return [];
+        if (!data || data.length === 0) return [];
 
         if (option === 'all') {
             setFilteredGraphData(data);
         } else {
-            debugLog(`Data | Options:${option}`, data)
-            const filtered = data.filter(item => item.category === option);
+            const filtered = data.filter(item => item.store_name === option);
             setFilteredGraphData(filtered);
         }
     }
@@ -63,7 +64,7 @@ const Trends = () => {
         setStoreNames(selectedStoreNames);
 
         setSelectedValue(event);
-        filterGraphData(graphData, event);
+        // filterGraphData(graphData, selectedStoreNames[0]);
     }
 
     // Fetch data when component mounts, once
@@ -72,11 +73,17 @@ const Trends = () => {
         get_graph_data();
     }, []);
 
+    useEffect(() => {
+        if (storeNames.length === 0) return;
+
+        filterGraphData(graphData, storeNames[0]);
+    }, [storeNames, graphData])
+
     return (
         <div>
             <h1>Price Trends</h1>
             <PriceChart 
-                graphData={graphData}
+                graphData={filteredGraphData}
             />
 
             <div className="selector">

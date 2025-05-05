@@ -42,22 +42,12 @@ const StoreFilter = () => {
         { store: "Best Buy" },
         { store: "Walmart" },
         { store: "Microcenter" },
+        { store: "Walmart" },
+        { store: "Dell" },
+        { store: "Amazon" },
+        { store: "Staples" },
+        { store: "Walmart" },
     ];
-
-    const sample_product_data = [
-        { title: "best", price: 10, source: "https://google.com", link: "wwwww" },
-        { title: "www", price: 10, source: "https://google.com", link: "wwwww" },
-        { title: "besssst", price: 10, source: "https://google.com", link: "wwwww" },
-        { title: "dads", price: 100, source: "https://google.com", link: "wwwww" },
-        { title: "wadwas", price: 10, source: "https://google.com", link: "wwwww" },
-        { title: "wadwas", price: 10, source: "https://google.com", link: "wwwww" },
-        { title: "wadwas", price: 10, source: "https://google.com", link: "wwwww" },
-        { title: "wadwas", price: 10, source: "https://google.com", link: "wwwww" },
-        { title: "wadwas", price: 10, source: "https://google.com", link: "wwwww" },
-        { title: "wadwas", price: 10, source: "https://google.com", link: "wwwww" },
-        { title: "wadwas", price: 10, source: "https://google.com", link: "wwwww" },
-        { title: "wadwas", price: 10, source: "https://google.com", link: "wwwww" },
-    ]
 
     // const [stores, setStores] = useState([]);
     // const [storeFilters, setStoreFilters] = useState([]);
@@ -106,9 +96,13 @@ const StoreFilter = () => {
     // EventHandler for filter change
     const handleSearchChange = (newValue) => {
         const searchTerm = newValue.target.textContent;
-        const filtered = tableData.filter(store => store.includes(searchTerm));
-
-        // setFilteredStores(filtered);
+        
+        if (searchTerm == '') {
+            setFilteredTableData(tableData)
+        } else {
+            const filtered = tableData.filter(store => searchTerm.includes(store.source));
+            setFilteredTableData(filtered);
+        }
     };
 
     const handleProductSearchChange = (newValue) => {
@@ -117,8 +111,8 @@ const StoreFilter = () => {
             return;
         }
 
-        const searchTerm = newValue.target.textContent;
-        const filtered = stores.filter(store => store.includes(searchTerm));
+        // const searchTerm = newValue.target.textContent;
+        // const filtered = stores.filter(store => store.includes(searchTerm));
 
         setProductsFilter(newValue.target.textContent);
 
@@ -143,7 +137,7 @@ const StoreFilter = () => {
 
     useEffect(() => {
         console.log("Tabkle Data: ", tableData);
-    }, [tableData])
+    }, [filteredTableData])
 
     // EventHandler for filter change
     // const handleFilterChange = (event) => {
@@ -246,7 +240,6 @@ const StoreFilter = () => {
             </div>
             <div className='product-select'>
                 <Autocomplete
-                    multiple
                     options={stores}
                     getOptionLabel={
                         (option) => {
@@ -285,7 +278,7 @@ const StoreFilter = () => {
                         </TableRow>
                         </TableHead>
                         <TableBody>
-                            {tableData.map((row, index) => (
+                            {filteredTableData.map((row, index) => (
                                 <TableRow key={index}>
                                     <TableCell>{index + 1}</TableCell>
                                     <TableCell>{row.source}</TableCell>

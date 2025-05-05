@@ -17,7 +17,7 @@ const PriceChart = ({ graphData }) => {
     };
 
     useEffect(() => {
-        const fetchAndFormatSampleData = async () => {
+        const fetchAndFormatSampleData = () => {
             try {
                 const responseData = graphData;
 
@@ -44,11 +44,7 @@ const PriceChart = ({ graphData }) => {
         }
 
         fetchAndFormatSampleData();
-    }, []);
-
-    useEffect(() => {
-        console.log(data)
-    }, [data])
+    }, [graphData]);
 
     if (!graphData || graphData.length == 0) return <div>Loading chart data...</div>;
 
