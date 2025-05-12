@@ -10,28 +10,35 @@
 }
 
 body {
-    /* background-color: #2980b9; */
     background-color: #00bcd4;
-
-    /* font-size: calc(2vmin * 1.5); */
-    font-size: 24px;
-
     text-align: center;
 }
 
 nav {
     background-color: #333;
-    padding: 15px 0;
+    padding: 15px;
 
     border-radius: 30px;
+    width: 75%;
+    margin: 10px auto;
+
+    animation: shrink-nav 0.75s ease-in-out;
 }
 
 nav ul {
     list-style: none;
     display: flex;
     justify-content: center;
-    gap: 20px;
-    padding: 0;
+    gap: 5px;
+}
+
+nav ul li {
+    padding: 0.5rem 1rem;
+    transition: padding 0.3s ease-in-out;
+}
+
+nav ul li:hover {
+    padding: 0.5rem 1.5rem;
 }
 
 nav ul li a {
@@ -39,9 +46,7 @@ nav ul li a {
     color: white;
     font-size: calc(10px + 2vh);
     font-weight: 600;
-    padding: 10px 15px;
-
-    transition: color 0.3 ease-in-out;
+    padding: 1rem;
 }
 
 nav ul li.right {
@@ -52,9 +57,65 @@ nav ul li a:hover {
     color: #ff5722;
 }
 
+nav ul li:not(:last-child)::after {
+    content: '/';
+    color: white;
+    margin-left: 5px;
+}
+
+/* For mobile, swtich to column layout and remove seperators */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li:not(:last-child)::after {
+        content: '';
+
+    }
+
+    p {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
+
+    .chart-container {
+        width: 100%;
+        max-width: 600px;
+        height: 350px;
+        background-color: #333;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        color: #fff;
+        margin: 0 auto;
+    }
+}
+
+.chart-container {
+    width: 700px;
+    height: 450px;
+    background-color: #444;
+    padding: 20px;
+    border-radius: 12px;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
 h1,
 h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
     text-align: center;
+    margin-bottom: 1rem;
+}
+
+p {
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 65ch;
+    margin: 0 auto;
 }
 
 hr {
@@ -125,5 +186,25 @@ div {
 @keyframes grow {
     50% {
         transform: scale(1.05);
+    }
+}
+
+@keyframes shrink-nav {
+    0% {
+        width: 100%;
+    }
+
+    100% {
+        width: 75%;
+    }
+}
+
+@keyframes spread-nav {
+    0% {
+        width: 75%;
+    }
+
+    100% {
+        width: 100%;
     }
 }

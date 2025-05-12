@@ -1,0 +1,113 @@
+{
+    "findItemsByKeywordsResponse": [
+        {
+            "ack": [
+                "Success"
+            ],
+            "version": [
+                "1.13.0"
+            ],
+            "timestamp": [
+                "2025-04-27T12:34:56.789Z"
+            ],
+            "searchResult": [
+                {
+                    "@count": "1",
+                    "item": [
+                        {
+                            "itemId": [
+                                "123456789012"
+                            ],
+                            "title": [
+                                "Microsoft Xbox One 500GB Console Black"
+                            ],
+                            "globalId": [
+                                "EBAY-US"
+                            ],
+                            "primaryCategory": [
+                                {
+                                    "categoryId": [
+                                        "139971"
+                                    ],
+                                    "categoryName": [
+                                        "Video Game Consoles"
+                                    ]
+                                }
+                            ],
+                            "galleryURL": [
+                                "https://i.ebayimg.com/images/g/abc123/s-l1600.jpg"
+                            ],
+                            "viewItemURL": [
+                                "https://www.ebay.com/itm/123456789012"
+                            ],
+                            "sellingStatus": [
+                                {
+                                    "currentPrice": [
+                                        {
+                                            "@currencyId": "USD",
+                                            "__value__": "129.99"
+                                        }
+                                    ],
+                                    "sellingState": [
+                                        "Active"
+                                    ]
+                                }
+                            ],
+                            "condition": [
+                                {
+                                    "conditionId": [
+                                        "3000"
+                                    ],
+                                    "conditionDisplayName": [
+                                        "Used"
+                                    ]
+                                }
+                            ],
+                            "location": [
+                                "Los Angeles, CA, USA"
+                            ],
+                            "country": [
+                                "US"
+                            ],
+                            "shippingInfo": [
+                                {
+                                    "shippingServiceCost": [
+                                        {
+                                            "@currencyId": "USD",
+                                            "__value__": "0.00"
+                                        }
+                                    ],
+                                    "shippingType": [
+                                        "Free"
+                                    ],
+                                    "shipToLocations": [
+                                        "Worldwide"
+                                    ]
+                                }
+                            ],
+                            "returnsAccepted": [
+                                "true"
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "paginationOutput": [
+                {
+                    "pageNumber": [
+                        "1"
+                    ],
+                    "entriesPerPage": [
+                        "1"
+                    ],
+                    "totalPages": [
+                        "10"
+                    ],
+                    "totalEntries": [
+                        "10"
+                    ]
+                }
+            ]
+        }
+    ]
+}
